@@ -18,9 +18,9 @@ Dibangun sebagai single-file web app (HTML/CSS/JS murni, tanpa build step, tanpa
 
 Semua modul menyimpan progres otomatis selama sesi berjalan, punya sistem anti-cheating sederhana (deteksi pindah tab), dan dashboard hasil dengan grafik (Chart.js) serta pembahasan per soal.
 
-## ⚠️ Penting sebelum deploy: soal penyimpanan progres
+## ⚠️ Penting: soal penyimpanan progres
 
-Fitur "simpan progres otomatis" sedang dalam pengerjaan.
+Fitur "simpan progres otomatis" sedang dalam pengerjaan, tapi tetap bisa melihat progres selama tidak keluar web.
 
 ## 🛠️ Tech stack
 
