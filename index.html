@@ -6,6 +6,10 @@
 <meta name="theme-color" content="#1B2A4A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="Simulasi psikotes kerja gratis: Kraepelin/Pauli, tes logika-verbal-spasial, DISC, PAPI Kostick, dan SKD CPNS (TWK/TIU/TKP). Latihan dengan tekanan waktu ala tes asli, lengkap dengan pembahasan dan grafik hasil.">
+<meta property="og:title" content="PsychoTest Pro — Simulasi Psikotes Interaktif">
+<meta property="og:description" content="Latihan Kraepelin, tes logika-verbal-spasial, DISC, PAPI Kostick, dan SKD CPNS gratis — lengkap dengan pembahasan dan grafik hasil.">
+<meta property="og:type" content="website">
 <title>PsychoTest Pro — Simulasi Psikotes Interaktif</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -153,71 +157,72 @@ body.no-ruled{background-image:none;}
   margin:12px 0 0;
 }
 
-/* ============ MODULE CAROUSEL (kartu 3D berputar, hemat tempat) ============ */
-:root{ --deck-r:170px; }
-@keyframes autoRun3d{
-  from{ transform:perspective(900px) rotateY(-360deg); }
-  to{ transform:perspective(900px) rotateY(0deg); }
-}
-@keyframes cardBrightness{
-  10%{filter:brightness(1);}
-  50%{filter:brightness(.4);}
-  90%{filter:brightness(1);}
-}
-.deck-section{display:flex;flex-direction:column;align-items:center;padding:14px 0 8px;}
-.module-deck{
-  position:relative;width:380px;height:260px;margin:0 0 26px;
+/* ============ MODULE GRID — kartu 3D tilt-on-hover (diadaptasi dari Uiverse.io by imtausef) ============ */
+.deck-section{padding:14px 0 8px;}
+.tilt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
+.tilt-parent{perspective:1000px;}
+.tilt-card{
+  position:relative;
+  border:2px solid var(--ink-navy);
+  background:
+    linear-gradient(135deg, transparent 18.75%, rgba(255,255,255,.05) 0 31.25%, transparent 0),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.04) -6.25% 6.25%, transparent 0 18.75%),
+    var(--ink-navy);
+  background-size:52px 52px;
+  box-shadow:0 20px 24px -10px rgba(27,42,74,.35);
+  transition:all .5s ease-in-out;
   transform-style:preserve-3d;
-  transform:perspective(900px);
-  animation:autoRun3d 20s linear infinite;
-  will-change:transform;
-}
-.module-deck:hover,
-.module-deck.paused{animation-play-state:paused !important;}
-.module-deck:hover .deck-card,
-.module-deck.paused .deck-card{animation-play-state:paused !important;}
-.deck-card{
-  position:absolute;top:50%;left:50%;
-  width:100px;height:140px;
-  background:var(--white);
-  border:2px solid var(--line);
-  border-radius:12%;
-  transform-origin:center center;
-  animation:cardBrightness 20s linear infinite;
-  transition:box-shadow 200ms ease;
-  will-change:transform, filter;
   cursor:pointer;
-  display:flex;flex-direction:column;overflow:hidden;
-  box-shadow:0 4px 10px rgba(27,42,74,.18);
+  padding-top:34px;
 }
-.deck-card:hover{box-shadow:0 6px 16px rgba(27,42,74,.32);}
-.deck-num{
-  position:absolute;top:6px;left:8px;font-family:var(--font-mono);font-size:9px;
-  color:var(--amber);font-weight:700;z-index:2;
+.tilt-card:hover{
+  background-position:-80px 80px, -80px 80px, 0 0;
+  transform:rotate3d(0.5, 1, 0, 12deg);
 }
-.deck-photo{
-  flex:1;margin:16px 8px 0;background:var(--paper-2);border-radius:14% 14% 4% 4%;
-  display:flex;align-items:center;justify-content:center;font-size:26px;
+.tilt-content{
+  background:var(--white);
+  transition:all .5s ease-in-out;
+  padding:20px 20px 22px;
+  transform-style:preserve-3d;
+  display:flex;flex-direction:column;
 }
-.deck-cap{
-  height:30px;display:flex;align-items:center;justify-content:center;text-align:center;
-  font-family:var(--font-mono);font-size:8.5px;font-weight:700;color:var(--ink-navy);
-  padding:0 4px;line-height:1.15;
+.tilt-icon{
+  font-size:30px;transition:all .5s ease-in-out;transform:translate3d(0,0,40px);
 }
-.deck-card:nth-child(1){transform:translate(-50%,-50%) rotateY(0deg) translateZ(var(--deck-r));animation-delay:-0s;}
-.deck-card:nth-child(2){transform:translate(-50%,-50%) rotateY(60deg) translateZ(var(--deck-r));animation-delay:-3.33s;}
-.deck-card:nth-child(3){transform:translate(-50%,-50%) rotateY(120deg) translateZ(var(--deck-r));animation-delay:-6.67s;}
-.deck-card:nth-child(4){transform:translate(-50%,-50%) rotateY(180deg) translateZ(var(--deck-r));animation-delay:-10s;}
-.deck-card:nth-child(5){transform:translate(-50%,-50%) rotateY(240deg) translateZ(var(--deck-r));animation-delay:-13.33s;}
-.deck-card:nth-child(6){transform:translate(-50%,-50%) rotateY(300deg) translateZ(var(--deck-r));animation-delay:-16.67s;}
+.tilt-title{
+  display:block;font-family:var(--font-display);font-weight:600;font-size:19px;
+  color:var(--ink-navy);margin-top:8px;transition:all .5s ease-in-out;transform:translate3d(0,0,45px);
+}
+.tilt-desc{
+  margin-top:8px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);
+  transition:all .5s ease-in-out;transform:translate3d(0,0,25px);flex:1;
+}
+.tilt-cta{
+  cursor:pointer;margin-top:14px;display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--font-mono);font-weight:700;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--white);background:var(--ink-navy);
+  padding:9px 14px;border-radius:100px;align-self:flex-start;
+  transition:all .5s ease-in-out;transform:translate3d(0,0,18px);
+}
+.tilt-card:hover .tilt-cta{background:var(--amber);}
+.tilt-badge{
+  position:absolute;top:-18px;right:18px;
+  height:52px;width:52px;
+  background:var(--ink-navy);border:2px solid var(--amber);border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform:translate3d(0,0,60px);
+  box-shadow:0 12px 14px -8px rgba(0,0,0,.35);
+}
+.tilt-badge-lbl{font-family:var(--font-mono);font-size:7px;letter-spacing:.08em;color:var(--amber);font-weight:700;}
+.tilt-badge-num{font-family:var(--font-mono);font-size:18px;font-weight:900;color:var(--amber);}
 .deck-caption{
   font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);text-align:center;
-  max-width:340px;min-height:34px;line-height:1.5;margin:0;
+  max-width:340px;min-height:34px;line-height:1.5;margin:20px auto 0;
 }
 
 /* ============ RESULT BANNER (terpisah dari carousel soal) ============ */
 .result-banner{
-  width:100%;max-width:420px;margin:8px 0 30px;
+  width:100%;margin:8px 0 30px;
   display:flex;align-items:center;justify-content:space-between;gap:14px;
   background:var(--white);border:2px solid var(--ink-navy);border-radius:var(--radius);
   padding:16px 20px;
@@ -379,6 +384,16 @@ body.no-ruled{background-image:none;}
   border:1.5px solid var(--line);flex:1;min-width:130px;
 }
 .badge b{display:block;font-size:18px;color:var(--ink-navy);}
+.skd-row{margin-bottom:16px;}
+.skd-row-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.skd-label{font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--ink-navy);}
+.skd-tag{
+  font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.04em;
+  padding:3px 10px;border-radius:100px;
+}
+.skd-tag.pass{background:var(--green-soft);color:var(--green);}
+.skd-tag.fail{background:var(--red-soft);color:var(--red);}
+.skd-row-meta{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);margin-top:5px;}
 .review-item{border-bottom:1px solid var(--line-soft);padding:14px 0;}
 .review-item:last-child{border-bottom:none;}
 .review-item .q{font-weight:600;margin-bottom:6px;}
@@ -418,11 +433,8 @@ footer.foot{
   .premium-title{font-size:16px;}
   .premium-line{font-size:10px;}
 
-  :root{ --deck-r:118px; }
-  .module-deck{width:290px;height:220px;}
-  .deck-card{width:80px;height:112px;}
-  .deck-photo{font-size:20px;margin:12px 6px 0;}
-  .deck-cap{font-size:7.5px;height:24px;}
+  .tilt-grid{grid-template-columns:1fr;gap:16px;}
+  .tilt-title{font-size:17px;}
   .deck-caption{font-size:11.5px;}
   .result-banner{padding:14px 16px;}
   .result-title{font-size:15px;}
@@ -510,39 +522,85 @@ footer.foot{
     </div>
 
     <div class="deck-section">
-      <div class="module-deck" id="moduleDeck">
-        <div class="deck-card" onclick="deckCardClick('logika')" onmouseenter="deckHint('logika')" onmouseleave="deckHint(null)">
-          <span class="deck-num">01</span>
-          <div class="deck-photo">🧮</div>
-          <div class="deck-cap">Logika &amp; Angka</div>
+      <div class="tilt-grid">
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startMCQ('logika')">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">01</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🧮</span>
+              <span class="tilt-title">Logika &amp; Angka</span>
+              <p class="tilt-desc">Deret angka dan penalaran logis dengan tekanan waktu per soal — bank soal khas tes BUMN.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
         </div>
-        <div class="deck-card" onclick="deckCardClick('verbal')" onmouseenter="deckHint('verbal')" onmouseleave="deckHint(null)">
-          <span class="deck-num">02</span>
-          <div class="deck-photo">📖</div>
-          <div class="deck-cap">Verbal</div>
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startMCQ('verbal')">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">02</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">📖</span>
+              <span class="tilt-title">Verbal</span>
+              <p class="tilt-desc">Sinonim, antonim, dan analogi kata untuk mengasah kecepatan membaca makna.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
         </div>
-        <div class="deck-card" onclick="deckCardClick('spasial')" onmouseenter="deckHint('spasial')" onmouseleave="deckHint(null)">
-          <span class="deck-num">03</span>
-          <div class="deck-photo">🧩</div>
-          <div class="deck-cap">Spasial</div>
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startMCQ('spasial')">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">03</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🧩</span>
+              <span class="tilt-title">Spasial</span>
+              <p class="tilt-desc">Melanjutkan pola bentuk — melatih visualisasi ruang tanpa kata-kata.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
         </div>
-        <div class="deck-card" onclick="deckCardClick('kraepelin')" onmouseenter="deckHint('kraepelin')" onmouseleave="deckHint(null)">
-          <span class="deck-num">04</span>
-          <div class="deck-photo">⏱️</div>
-          <div class="deck-cap">Kraepelin / Pauli</div>
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startKraepelin()">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">04</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">⏱️</span>
+              <span class="tilt-title">Kraepelin / Pauli</span>
+              <p class="tilt-desc">Jumlahkan dua angka berurutan, kolom berpindah otomatis. Melatih ritme &amp; ketahanan.</p>
+              <span class="tilt-cta">Mulai Simulasi</span>
+            </div>
+          </div>
         </div>
-        <div class="deck-card" onclick="deckCardClick('disc')" onmouseenter="deckHint('disc')" onmouseleave="deckHint(null)">
-          <span class="deck-num">05</span>
-          <div class="deck-photo">🎭</div>
-          <div class="deck-cap">DISC</div>
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startDISC()">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">05</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🎭</span>
+              <span class="tilt-title">DISC</span>
+              <p class="tilt-desc">Pilihan paksa singkat untuk memetakan gaya kerja dan kecocokan budaya perusahaan.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
         </div>
-        <div class="deck-card" onclick="deckCardClick('papi')" onmouseenter="deckHint('papi')" onmouseleave="deckHint(null)">
-          <span class="deck-num">06</span>
-          <div class="deck-photo">🗂️</div>
-          <div class="deck-cap">PAPI Kostick</div>
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startPAPI()">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">06</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🗂️</span>
+              <span class="tilt-title">PAPI Kostick</span>
+              <p class="tilt-desc">Pilihan paksa 20 aspek gaya kerja — psikotes kepribadian paling umum dipakai HRD Indonesia.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
+        </div>
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startSKD()">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">07</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🏛️</span>
+              <span class="tilt-title">SKD CPNS</span>
+              <p class="tilt-desc">Simulasi berurutan TWK, TIU, dan TKP ala CAT BKN — skor dibandingkan ambang batas resmi (terskalakan).</p>
+              <span class="tilt-cta">Mulai Simulasi</span>
+            </div>
+          </div>
         </div>
       </div>
-      <p class="deck-caption" id="deckCaption">Arahkan kursor atau sentuh kartu untuk berhenti berputar dan melihat detail modul.</p>
     </div>
 
     <button class="result-banner" onclick="showResults()">
@@ -658,6 +716,25 @@ footer.foot{
     </div>
   </section>
 
+  <!-- ===================== VIEW: TKP ===================== -->
+  <section class="view" id="view-tkp">
+    <div class="warn-banner" id="tkpWarnBanner">⚠ Terdeteksi berpindah tab selama simulasi TKP.</div>
+    <div class="test-header">
+      <div class="test-title">
+        <h2>TKP — Karakteristik Pribadi</h2>
+      </div>
+      <span class="pill" id="tkpCounter">Soal 1/8</span>
+    </div>
+    <div class="mcq-panel">
+      <p class="mcq-question" id="tkpQuestionText"></p>
+      <div class="options" id="tkpOptions"></div>
+    </div>
+    <div class="mcq-footer">
+      <button class="btn btn-outline" onclick="tkpPrev()">← Sebelumnya</button>
+      <button class="btn btn-primary" id="tkpNextBtn" onclick="tkpNext()">Selanjutnya →</button>
+    </div>
+  </section>
+
   <!-- ===================== VIEW: RESULTS ===================== -->
   <section class="view" id="view-results">
     <div class="test-header">
@@ -666,6 +743,13 @@ footer.foot{
     </div>
 
     <div class="results-summary" id="resultsSummary"></div>
+
+    <div class="section-block" id="blockSKD" style="display:none;">
+      <h3>Hasil Simulasi SKD CPNS</h3>
+      <p style="font-size:12px;color:var(--ink-soft);margin:0 0 14px;">Skor per subtes memakai bobot resmi (TWK/TIU: benar=5 poin; TKP: 1–5 poin per opsi). Ambang batas di bawah ini <b>diskalakan proporsional</b> dari passing grade resmi Kepmen PANRB No. 321/2024 (TWK 65/150, TIU 80/175, TKP 166/225) karena simulasi ini pakai soal lebih sedikit — bukan angka resmi apa adanya.</p>
+      <div id="skdRows"></div>
+      <p id="skdVerdict" style="font-size:13.5px;margin-top:14px;line-height:1.5;"></p>
+    </div>
 
     <div class="section-block" id="blockMCQ">
       <h3>Rekap Tes Pilihan Ganda</h3>
@@ -708,7 +792,8 @@ const state = {
   mcq: {}, // per category: {answers:[], ragu:[], index, startedAt, finished, timeUsed}
   krae: { logs: [], finished:false },
   disc: { answers: [], finished:false },
-  papi: { answers: [], finished:false }
+  papi: { answers: [], finished:false },
+  tkp: { answers: [], finished:false }
 };
 
 document.getElementById('targetSelect').addEventListener('change', e=>{ state.target = e.target.value; queueSave(); });
@@ -733,7 +818,7 @@ async function saveProgress(){
   if(typeof window.storage === 'undefined') return;
   if(Date.now() < storageDownUntil) return; // sedang cooldown, jangan spam layanan yang lagi bermasalah
   try{
-    const payload = { ticketNo: state.ticketNo, target: state.target, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi };
+    const payload = { ticketNo: state.ticketNo, target: state.target, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp };
     const result = await window.storage.set(STORAGE_KEY, JSON.stringify(payload), false);
     if(!result) throw new Error('Storage set mengembalikan hasil kosong');
     storageWorking = true;
@@ -756,6 +841,7 @@ async function loadProgress(){
       state.krae = parsed.krae || {logs:[], finished:false};
       state.disc = parsed.disc || {answers:[], finished:false};
       state.papi = parsed.papi || {answers:[], finished:false};
+      state.tkp = parsed.tkp || {answers:[], finished:false};
       return true;
     }
   }catch(e){ /* belum ada progres tersimpan — normal untuk pengguna baru */ }
@@ -767,7 +853,7 @@ async function loadProgress(){
   document.getElementById('ticketNoDisplay').textContent = state.ticketNo;
   document.getElementById('targetSelect').value = state.target;
   if(loaded){
-    const anyDone = Object.values(state.mcq).some(s=>s.finished) || state.krae.finished || state.disc.finished || state.papi.finished;
+    const anyDone = Object.values(state.mcq).some(s=>s.finished) || state.krae.finished || state.disc.finished || state.papi.finished || state.tkp.finished;
     if(anyDone) setStatus('Progres sebelumnya berhasil dimuat dari perangkat ini');
   }
 })();
@@ -790,20 +876,14 @@ function attachTabWarning(bannerId){
 }
 attachTabWarning('mcqWarnBanner');
 attachTabWarning('kraeWarnBanner');
+attachTabWarning('tkpWarnBanner');
 
 /* ======================================================================
-   MODULE CAROUSEL (kartu 3D berputar di beranda)
+   MODULE GRID (kartu 3D tilt-hover di beranda)
+   Tiap kartu sudah membawa deskripsi & tombol sendiri, jadi tidak perlu
+   caption/state tambahan — klik langsung memanggil fungsi start terkait.
    ====================================================================== */
-const DECK_INFO = {
-  logika:{label:'Logika & Angka', desc:'Deret angka dan penalaran logis dengan tekanan waktu per soal — bank soal khas tes BUMN.'},
-  verbal:{label:'Verbal', desc:'Sinonim, antonim, dan analogi kata untuk mengasah kecepatan membaca makna.'},
-  spasial:{label:'Spasial', desc:'Melanjutkan pola bentuk — melatih visualisasi ruang tanpa kata-kata.'},
-  kraepelin:{label:'Kraepelin / Pauli', desc:'Jumlahkan dua angka berurutan, kolom berpindah otomatis. Melatih ritme & ketahanan.'},
-  disc:{label:'DISC', desc:'Pilihan paksa singkat untuk memetakan gaya kerja dan kecocokan budaya perusahaan.'},
-  papi:{label:'PAPI Kostick', desc:'Pilihan paksa 20 aspek gaya kerja — psikotes kepribadian paling umum dipakai HRD Indonesia.'}
-};
 const isHoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-let deckPaused = false;
 
 /* Kartu amplop premium: hover membuka di desktop (CSS saja); di HP perlu tap (JS), karena hover tidak berlaku di layar sentuh */
 if(!isHoverCapable){
@@ -812,42 +892,6 @@ if(!isHoverCapable){
     premiumCard.addEventListener('click', ()=>{ premiumCard.classList.toggle('opened'); });
   }
 }
-
-function deckHint(key){
-  const el = document.getElementById('deckCaption');
-  if(!el) return;
-  el.textContent = key ? DECK_INFO[key].desc : 'Arahkan kursor atau sentuh kartu untuk berhenti berputar dan melihat detail modul.';
-}
-
-function deckLaunch(key){
-  switch(key){
-    case 'logika': case 'verbal': case 'spasial': startMCQ(key); break;
-    case 'kraepelin': startKraepelin(); break;
-    case 'disc': startDISC(); break;
-    case 'papi': startPAPI(); break;
-  }
-}
-
-function deckCardClick(key){
-  if(isHoverCapable){ deckLaunch(key); return; }
-  const deck = document.getElementById('moduleDeck');
-  if(!deckPaused){
-    deck.classList.add('paused');
-    deckPaused = true;
-    deckHint(key);
-    return;
-  }
-  deckLaunch(key);
-}
-
-document.addEventListener('click', (e)=>{
-  const deck = document.getElementById('moduleDeck');
-  if(deck && deckPaused && !deck.contains(e.target)){
-    deck.classList.remove('paused');
-    deckPaused = false;
-    deckHint(null);
-  }
-});
 
 /* ======================================================================
    QUESTION BANK
@@ -894,6 +938,32 @@ const BANK = {
     {q:'Jika "▽" diputar 180°, hasilnya adalah...', opts:['△','▽','◁','▷'], correct:0, exp:'Segitiga menghadap bawah yang diputar 180° akan menghadap ke atas (△).'},
     {q:'Bentuk mana yang tidak sekelompok dengan lainnya: ▲ ◆ ■ ●', opts:['▲','◆','■','●'], correct:3, exp:'▲◆■ adalah bentuk bersisi lurus (poligon), sedangkan ● adalah bentuk bulat tanpa sisi.'},
     {q:'Lanjutkan pola bergantian berikut:', shapes:['□','■','□','■','□'], opts:['□','■','▲','●'], correct:1, exp:'Pola bergantian kosong dan penuh, giliran berikutnya bentuk penuh (■).'}
+  ],
+  twk: [
+    {q:'Rumusan Pancasila yang sah dan resmi secara konstitusional tercantum dalam...', opts:['Piagam Jakarta','Pembukaan UUD 1945 alinea IV','Dekrit Presiden 1959','Supersemar'], correct:1, exp:'Rumusan Pancasila yang sah tercantum dalam alinea keempat Pembukaan UUD 1945.'},
+    {q:'Sumpah Pemuda yang menegaskan satu nusa, satu bangsa, dan satu bahasa dikumandangkan pada...', opts:['17 Agustus 1945','28 Oktober 1928','1 Juni 1945','10 November 1945'], correct:1, exp:'Sumpah Pemuda diikrarkan pada Kongres Pemuda II tanggal 28 Oktober 1928.'},
+    {q:'Semboyan "Bhinneka Tunggal Ika" diambil dari kitab...', opts:['Negarakertagama','Sutasoma','Pararaton','Arjunawiwaha'], correct:1, exp:'Frasa tersebut berasal dari Kitab Sutasoma karya Mpu Tantular pada era Majapahit.'},
+    {q:'Pasal dalam UUD 1945 yang menjadi dasar sistem perekonomian nasional berbasis kekeluargaan adalah...', opts:['Pasal 28','Pasal 31','Pasal 33','Pasal 34'], correct:2, exp:'Pasal 33 UUD 1945 mengatur perekonomian sebagai usaha bersama berdasar asas kekeluargaan.'},
+    {q:'Lembaga yang bertugas merumuskan dasar negara sebelum proklamasi kemerdekaan adalah...', opts:['KNIP','BPUPKI','PPKI','Volksraad'], correct:1, exp:'BPUPKI dibentuk untuk merumuskan dasar negara sebelum kemerdekaan; PPKI kemudian mengesahkannya.'},
+    {q:'Empat Pilar Kebangsaan Indonesia terdiri dari Pancasila, UUD 1945, NKRI, dan...', opts:['Bhinneka Tunggal Ika','Garuda Pancasila','Sumpah Pemuda','Wawasan Nusantara'], correct:0, exp:'Empat Pilar Kebangsaan mencakup Pancasila, UUD 1945, NKRI, dan Bhinneka Tunggal Ika.'},
+    {q:'Sikap rela berkorban demi kepentingan bangsa dan negara di atas kepentingan pribadi mencerminkan nilai...', opts:['Individualisme','Nasionalisme','Liberalisme','Sektarianisme'], correct:1, exp:'Mengutamakan kepentingan bangsa di atas kepentingan pribadi adalah wujud nasionalisme, salah satu nilai dasar bela negara.'},
+    {q:'Pasal 31 UUD 1945 secara khusus mengatur hak warga negara atas...', opts:['Pekerjaan','Pendidikan','Kesehatan','Kebebasan beragama'], correct:1, exp:'Pasal 31 UUD 1945 menjamin hak setiap warga negara untuk mendapatkan pendidikan.'},
+    {q:'Naskah Proklamasi Kemerdekaan Indonesia dibacakan oleh...', opts:['Mohammad Hatta','Ir. Soekarno','Sutan Sjahrir','Ahmad Soebardjo'], correct:1, exp:'Proklamasi dibacakan oleh Ir. Soekarno didampingi Mohammad Hatta pada 17 Agustus 1945.'},
+    {q:'Menghormati hasil musyawarah meski berbeda pendapat merupakan pengamalan Pancasila sila ke-...', opts:['Ke-2','Ke-3','Ke-4','Ke-5'], correct:2, exp:'Sila keempat mengajarkan penghormatan terhadap hasil musyawarah dan perwakilan.'}
+  ],
+  tiu: [
+    {sub:'Verbal', q:'PETANI : CANGKUL = PELUKIS : ...', opts:['Kuas','Kanvas','Cat','Galeri'], correct:0, exp:'Analogi alat kerja utama: petani menggunakan cangkul, pelukis menggunakan kuas.'},
+    {sub:'Verbal', q:'Semua pegawai teladan disiplin. Sebagian pegawai teladan berprestasi. Kesimpulan yang tepat adalah...', opts:['Semua pegawai disiplin berprestasi','Sebagian pegawai disiplin mungkin berprestasi','Semua pegawai berprestasi disiplin','Tidak ada pegawai disiplin yang berprestasi'], correct:1, exp:'Dari premis "semua A adalah B" dan "sebagian A adalah C", kesimpulan validnya hanya sebagian B mungkin C.'},
+    {sub:'Verbal', q:'Andi lebih tinggi dari Budi. Budi lebih tinggi dari Citra. Dedi lebih pendek dari Citra. Urutan dari yang tertinggi adalah...', opts:['Andi-Budi-Citra-Dedi','Dedi-Citra-Budi-Andi','Budi-Andi-Citra-Dedi','Andi-Citra-Budi-Dedi'], correct:0, exp:'Andi>Budi>Citra>Dedi, sehingga urutan dari tertinggi: Andi, Budi, Citra, Dedi.'},
+    {sub:'Numerik', q:'Lanjutkan deret: 2, 6, 12, 20, 30, ...', opts:['40','42','44','45'], correct:1, exp:'Pola n×(n+1): 1×2, 2×3, 3×4, 4×5, 5×6, berikutnya 6×7=42.'},
+    {sub:'Numerik', q:'Jika 3x + 5 = 20, maka nilai 2x adalah...', opts:['8','10','12','15'], correct:1, exp:'3x=15 → x=5, sehingga 2x=10.'},
+    {sub:'Numerik', q:'Sebuah toko memberi diskon 20% untuk barang seharga Rp250.000. Harga setelah diskon adalah...', opts:['Rp180.000','Rp190.000','Rp200.000','Rp210.000'], correct:2, exp:'250.000 × (1-0,2) = 250.000 × 0,8 = Rp200.000.'},
+    {sub:'Numerik', q:'6 pekerja menyelesaikan proyek dalam 10 hari. Jika ingin selesai dalam 5 hari, berapa pekerja dibutuhkan?', opts:['10','12','14','15'], correct:1, exp:'6×10=60 orang-hari. 60/5=12 pekerja.'},
+    {sub:'Numerik', q:'Rata-rata dari 6 bilangan adalah 15. Jika satu bilangan bernilai 25 dikeluarkan, rata-rata 5 bilangan sisanya adalah...', opts:['11','12','13','14'], correct:2, exp:'Total 6 bilangan = 90. Setelah dikurangi 25 = 65. Rata-rata 5 bilangan = 65/5 = 13.'},
+    {sub:'Figural', q:'Lanjutkan pola berikut:', shapes:['▲','▲','●','▲','▲','●','▲','▲'], opts:['▲','●','■','◆'], correct:1, exp:'Pola berulang tiap 3 bentuk (▲▲●), posisi berikutnya melengkapi kelompok dengan ●.'},
+    {sub:'Figural', q:'Bentuk mana yang tidak sekelompok dengan lainnya: ■ ▲ ⬟ ●', opts:['■','▲','⬟','●'], correct:3, exp:'■▲⬟ adalah poligon bersisi lurus, sedangkan ● adalah bentuk bulat tanpa sisi.'},
+    {sub:'Figural', q:'Jika bentuk "◺" dicerminkan secara horizontal, hasilnya adalah...', opts:['◺','◹','◸','◿'], correct:3, exp:'Pencerminan horizontal pada segitiga siku di kiri-bawah memindahkannya ke kanan-bawah (◿).'},
+    {sub:'Verbal', q:'BUKU : PENGARANG = LAGU : ...', opts:['Penyanyi','Pencipta','Produser','Pendengar'], correct:1, exp:'Analogi pembuat karya: buku dibuat pengarang, lagu dibuat pencipta lagu.'}
   ]
 };
 
@@ -915,8 +985,8 @@ function startMCQ(cat){
       timeUsed:0
     };
   }
-  document.getElementById('mcqCategoryTitle').textContent =
-    cat==='logika' ? 'Logika & Angka' : cat==='verbal' ? 'Verbal' : 'Spasial';
+  const titles = {logika:'Logika & Angka', verbal:'Verbal', spasial:'Spasial', twk:'TWK — Wawasan Kebangsaan', tiu:'TIU — Intelegensia Umum'};
+  document.getElementById('mcqCategoryTitle').textContent = titles[cat] || cat;
   document.getElementById('mcqWarnBanner').classList.remove('show');
   renderMCQ();
   switchView('view-mcq');
@@ -926,7 +996,7 @@ function renderMCQ(){
   const s = state.mcq[mcqCat];
   const q = BANK[mcqCat][s.index];
   document.getElementById('mcqCounter').textContent = `Soal ${s.index+1}/${BANK[mcqCat].length}`;
-  document.getElementById('mcqQuestionText').textContent = q.q;
+  document.getElementById('mcqQuestionText').textContent = (q.sub ? `[${q.sub}] ` : '') + q.q;
 
   const shapeRow = document.getElementById('mcqShapeRow');
   shapeRow.innerHTML = '';
@@ -1014,6 +1084,13 @@ function startMCQTimer(){
   }
 }
 
+let skdFlowActive = false;
+
+function startSKD(){
+  skdFlowActive = true;
+  startMCQ('twk');
+}
+
 function finishMCQ(){
   clearInterval(mcqTimerInterval);
   const s = state.mcq[mcqCat];
@@ -1021,6 +1098,8 @@ function finishMCQ(){
   s.timeUsed = Math.round((Date.now()-s.startedAt)/1000);
   setStatus(`Tes ${mcqCat} selesai dikerjakan`);
   saveProgress();
+  if(skdFlowActive && mcqCat==='twk'){ startMCQ('tiu'); return; }
+  if(skdFlowActive && mcqCat==='tiu'){ startTKP(); return; }
   showResults();
 }
 
@@ -1229,6 +1308,7 @@ function showResults(){
   renderKraeResults();
   renderDISCResults();
   renderPAPIResults();
+  renderSKDResults();
   switchView('view-results');
 }
 
@@ -1509,6 +1589,187 @@ function renderPAPIResults(){
     wrap.appendChild(domDiv);
   });
 }
+
+/* ======================================================================
+   TKP ENGINE (Tes Karakteristik Pribadi)
+   Setiap opsi punya skor 1–5 (bukan benar/salah) — mengikuti format resmi
+   SKD CPNS. Tema soal mengacu pada nilai dasar ASN (BerAKHLAK): berorientasi
+   pelayanan, akuntabel, kompeten, harmonis, loyal, adaptif, kolaboratif.
+   ====================================================================== */
+const TKP_BANK = [
+  {q:'Seorang warga datang mengeluh dengan nada tinggi karena proses administrasi di kantor Anda lambat. Sikap Anda adalah...', opts:[
+    {t:'Mendengarkan keluhannya dengan tenang, meminta maaf atas ketidaknyamanan, dan segera membantu menyelesaikan', score:5},
+    {t:'Menjelaskan prosedur yang berlaku sambil tetap membantu proses selanjutnya', score:4},
+    {t:'Meminta warga tersebut menunggu sampai petugas lain selesai menangani hal lain', score:3},
+    {t:'Menjawab seadanya tanpa banyak penjelasan agar cepat selesai', score:2},
+    {t:'Membalas dengan nada yang sama karena merasa tidak dihormati', score:1}
+  ]},
+  {q:'Anda menemukan kesalahan hitung dalam laporan keuangan yang sudah ditandatangani atasan. Yang Anda lakukan...', opts:[
+    {t:'Segera melaporkan temuan tersebut kepada atasan dan mengusulkan perbaikan', score:5},
+    {t:'Mencatat temuan dan menyampaikannya pada kesempatan rapat berikutnya', score:4},
+    {t:'Memperbaiki sendiri tanpa memberi tahu siapa pun', score:3},
+    {t:'Mendiamkannya karena laporan sudah ditandatangani', score:2},
+    {t:'Menyalahkan rekan kerja yang menyusun laporan tersebut', score:1}
+  ]},
+  {q:'Tim Anda harus menyelesaikan proyek lintas divisi dengan tenggat ketat. Sikap terbaik Anda...', opts:[
+    {t:'Aktif berkoordinasi dengan divisi lain dan membagi tugas sesuai keahlian masing-masing', score:5},
+    {t:'Fokus menyelesaikan bagian sendiri lalu membantu jika ada waktu luang', score:4},
+    {t:'Menunggu arahan detail dari atasan sebelum bertindak', score:3},
+    {t:'Mengerjakan sebagian besar sendiri agar hasil sesuai standar pribadi', score:2},
+    {t:'Menyerahkan tanggung jawab koordinasi sepenuhnya ke rekan lain', score:1}
+  ]},
+  {q:'Sistem kerja di kantor tiba-tiba berubah menjadi digital sepenuhnya. Respons Anda...', opts:[
+    {t:'Segera mempelajari sistem baru dan membantu rekan yang kesulitan beradaptasi', score:5},
+    {t:'Mempelajari secara bertahap sambil tetap menjalankan tugas seperti biasa', score:4},
+    {t:'Menunggu pelatihan resmi sebelum mulai menggunakan sistem baru', score:3},
+    {t:'Menggunakan sistem lama semaksimal mungkin selama masih diizinkan', score:2},
+    {t:'Mengeluh karena perubahan dianggap merepotkan', score:1}
+  ]},
+  {q:'Rekan kerja Anda berasal dari latar belakang suku dan agama berbeda dan jarang dilibatkan dalam obrolan tim. Anda...', opts:[
+    {t:'Secara aktif mengajak dan melibatkannya dalam kegiatan maupun diskusi tim', score:5},
+    {t:'Bersikap ramah bila berpapasan namun tidak secara khusus mengajak', score:4},
+    {t:'Membiarkan saja karena dianggap bukan urusan pribadi', score:3},
+    {t:'Hanya berinteraksi seperlunya untuk kebutuhan pekerjaan', score:2},
+    {t:'Ikut-ikutan mengabaikannya seperti rekan lain', score:1}
+  ]},
+  {q:'Anda diberi tugas baru di luar bidang keahlian utama Anda. Sikap Anda...', opts:[
+    {t:'Mempelajari hal baru tersebut dengan sungguh-sungguh sambil berkonsultasi ke yang lebih berpengalaman', score:5},
+    {t:'Mengerjakan sebisanya sambil berharap hasil cukup memuaskan', score:4},
+    {t:'Meminta tugas tersebut dialihkan ke rekan yang lebih ahli', score:3},
+    {t:'Mengerjakan asal selesai tanpa banyak usaha tambahan', score:2},
+    {t:'Menolak tugas tersebut karena bukan bidang Anda', score:1}
+  ]},
+  {q:'Atasan meminta Anda membuat laporan menggunakan aplikasi yang belum pernah Anda gunakan sebelumnya. Anda...', opts:[
+    {t:'Mempelajari aplikasi tersebut secara mandiri melalui tutorial sambil tetap mengerjakan laporan tepat waktu', score:5},
+    {t:'Meminta bantuan rekan yang sudah mahir sambil ikut belajar', score:4},
+    {t:'Meminta perpanjangan waktu karena harus belajar dari nol', score:3},
+    {t:'Membuat laporan dengan cara manual seperti biasa lalu meminta orang lain mengonversinya', score:2},
+    {t:'Menyerahkan sepenuhnya tugas tersebut ke rekan lain', score:1}
+  ]},
+  {q:'Anda melihat unggahan di grup kerja yang berisi ujaran kebencian terhadap kelompok tertentu. Anda...', opts:[
+    {t:'Menegur secara bijak dan mengingatkan pentingnya menjaga toleransi di lingkungan kerja', score:5},
+    {t:'Tidak berkomentar di grup namun melaporkannya ke admin/atasan', score:4},
+    {t:'Diam saja karena tidak ingin terlibat konflik', score:3},
+    {t:'Ikut menonton tanpa menanggapi apa pun', score:2},
+    {t:'Ikut menambahkan komentar serupa', score:1}
+  ]}
+];
+
+let tkpIndex = 0;
+
+function startTKP(){
+  tkpIndex = 0;
+  state.tkp.answers = new Array(TKP_BANK.length).fill(null);
+  document.getElementById('tkpWarnBanner').classList.remove('show');
+  renderTKP();
+  switchView('view-tkp');
+}
+
+function renderTKP(){
+  const item = TKP_BANK[tkpIndex];
+  document.getElementById('tkpCounter').textContent = `Soal ${tkpIndex+1}/${TKP_BANK.length}`;
+  document.getElementById('tkpQuestionText').textContent = item.q;
+  const optsEl = document.getElementById('tkpOptions');
+  optsEl.innerHTML = '';
+  const letters = ['A','B','C','D','E'];
+  const chosen = state.tkp.answers[tkpIndex];
+  item.opts.forEach((opt,i)=>{
+    const div = document.createElement('div');
+    div.className = 'option' + (chosen===i ? ' selected':'');
+    div.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt.t}</span>`;
+    div.onclick = ()=>{ state.tkp.answers[tkpIndex]=i; renderTKP(); queueSave(); };
+    optsEl.appendChild(div);
+  });
+  document.getElementById('tkpNextBtn').textContent = tkpIndex===TKP_BANK.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
+}
+function tkpPrev(){ if(tkpIndex>0){ tkpIndex--; renderTKP(); } }
+function tkpNext(){
+  if(state.tkp.answers[tkpIndex]===null){ alert('Pilih salah satu jawaban dulu ya.'); return; }
+  if(tkpIndex < TKP_BANK.length-1){ tkpIndex++; renderTKP(); }
+  else { finishTKP(); }
+}
+function finishTKP(){
+  state.tkp.finished = true;
+  setStatus('Simulasi TKP selesai');
+  saveProgress();
+  skdFlowActive = false;
+  showResults();
+}
+
+/* ======================================================================
+   SKD CPNS — hasil gabungan TWK + TIU + TKP
+   Passing grade resmi (formasi umum) mengacu Kepmen PANRB No. 321/2024:
+   TWK 65/150 (30 soal), TIU 80/175 (35 soal), TKP 166/225 (45 soal).
+   Karena simulasi ini memakai jumlah soal lebih sedikit, ambang batas
+   ditampilkan terskala proporsional — bukan angka resmi apa adanya.
+   ====================================================================== */
+const SKD_OFFICIAL = {
+  twk:{soal:30, pg:65, maks:150},
+  tiu:{soal:35, pg:80, maks:175},
+  tkp:{soal:45, pg:166, maks:225}
+};
+function proratedPG(cat, ourCount){
+  const off = SKD_OFFICIAL[cat];
+  return Math.round(off.pg/off.soal*ourCount);
+}
+function scoreMCQAsSKD(cat){
+  const s = state.mcq[cat];
+  if(!s) return {correct:0, total:0, score:0, maxScore:0};
+  let correct = 0;
+  BANK[cat].forEach((q,i)=>{ if(s.answers[i]===q.correct) correct++; });
+  const total = BANK[cat].length;
+  return {correct, total, score:correct*5, maxScore:total*5};
+}
+function scoreTKP(){
+  let score = 0;
+  TKP_BANK.forEach((item,i)=>{
+    const ans = state.tkp.answers[i];
+    if(ans!==null && ans!==undefined) score += item.opts[ans].score;
+  });
+  return {score, maxScore: TKP_BANK.length*5};
+}
+
+function renderSKDResults(){
+  const block = document.getElementById('blockSKD');
+  const twkDone = state.mcq.twk && state.mcq.twk.finished;
+  const tiuDone = state.mcq.tiu && state.mcq.tiu.finished;
+  const tkpDone = state.tkp.finished;
+  if(!(twkDone && tiuDone && tkpDone)){ block.style.display='none'; return; }
+  block.style.display = 'block';
+
+  const twk = scoreMCQAsSKD('twk');
+  const tiu = scoreMCQAsSKD('tiu');
+  const tkp = scoreTKP();
+
+  const rows = [
+    {label:'TWK', ...twk, pg:proratedPG('twk', twk.total)},
+    {label:'TIU', ...tiu, pg:proratedPG('tiu', tiu.total)},
+    {label:'TKP', score:tkp.score, maxScore:tkp.maxScore, pg:proratedPG('tkp', TKP_BANK.length)}
+  ].map(r=>({...r, pass: r.score >= r.pg}));
+
+  const wrap = document.getElementById('skdRows');
+  wrap.innerHTML = '';
+  rows.forEach(r=>{
+    const div = document.createElement('div');
+    div.className = 'skd-row';
+    const pct = Math.min(100, Math.round(r.score/r.maxScore*100));
+    div.innerHTML = `
+      <div class="skd-row-top">
+        <span class="skd-label">${r.label}</span>
+        <span class="skd-tag ${r.pass?'pass':'fail'}">${r.pass?'MEMENUHI':'BELUM MEMENUHI'}</span>
+      </div>
+      <div class="krae-progress-bar"><div class="krae-progress-fill" style="width:${pct}%;background:${r.pass?'var(--green)':'var(--red)'};"></div></div>
+      <div class="skd-row-meta">Skor ${r.score} dari ${r.maxScore} · Ambang batas estimasi: ${r.pg}</div>
+    `;
+    wrap.appendChild(div);
+  });
+
+  const allPass = rows.every(r=>r.pass);
+  document.getElementById('skdVerdict').innerHTML = allPass
+    ? '✅ <b>Memenuhi ambang batas di ketiga subtes</b> pada simulasi singkat ini — pertahankan konsistensinya.'
+    : '⚠️ <b>Belum memenuhi ambang batas</b> di salah satu subtes — sistem SKD asli menggugurkan peserta walau nilai subtes lain tinggi, jadi coba fokus latihan di bagian yang masih di bawah garis.';
+}
+
 </script>
 </body>
 </html>
