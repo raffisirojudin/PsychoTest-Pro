@@ -57,6 +57,23 @@ body.no-ruled{background-image:none;}
 
 .app-shell{max-width:960px;margin:0 auto;padding:0 20px 80px;}
 
+/* ============ INTRO SCREEN (kartu peserta sebagai layar sambutan) ============ */
+.intro-screen{
+  position:fixed;inset:0;z-index:500;
+  background:var(--paper);
+  background-image:repeating-linear-gradient(transparent, transparent 27px, var(--line-soft) 28px);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  opacity:1;visibility:visible;
+  transition:opacity .5s ease, visibility .5s ease;
+}
+.intro-screen.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.intro-inner{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;max-width:400px;}
+.intro-title{font-family:var(--font-display);font-size:26px;font-weight:600;color:var(--ink-navy);margin:8px 0 6px;}
+.intro-sub{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);margin:0 0 22px;transition:color .3s ease;}
+.intro-sub.ready{color:var(--green);}
+.intro-continue{margin-top:26px;}
+
 /* ============ TOPBAR ============ */
 .topbar{
   display:flex;align-items:center;justify-content:space-between;
@@ -108,7 +125,7 @@ body.no-ruled{background-image:none;}
 .hero p{font-size:16px;line-height:1.6;color:var(--ink-soft);max-width:560px;margin:0 0 26px;}
 
 /* ============ PREMIUM CARD (amplop + segel lilin, diadaptasi dari Uiverse.io by SmookyDev) ============ */
-.premium-wrap{display:flex;flex-direction:column;align-items:center;margin:4px 0 32px;}
+.premium-wrap{width:100%;display:flex;flex-direction:column;align-items:center;margin:4px 0 32px;}
 .premium-card{
   position:relative;
   width:100%;max-width:340px;aspect-ratio:16/9;
@@ -287,6 +304,17 @@ body.no-ruled{background-image:none;}
   width:52px;height:52px;border:2px dashed var(--line);border-radius:var(--radius-sm);
   display:flex;align-items:center;justify-content:center;color:var(--line);font-size:22px;
 }
+.matrix-grid{
+  display:grid;grid-template-columns:repeat(2,64px);grid-template-rows:repeat(2,64px);
+  gap:4px;margin-bottom:22px;width:fit-content;
+}
+.matrix-cell{
+  border:2px solid var(--ink-navy);background:var(--paper-2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;color:var(--ink);
+}
+.matrix-cell.slot{border-style:dashed;color:var(--line);background:var(--white);}
+
 .options{display:grid;gap:10px;}
 .option{
   display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid var(--line);
@@ -474,6 +502,35 @@ footer.foot{
 </head>
 <body>
 
+<div class="intro-screen" id="introScreen">
+  <div class="intro-inner">
+    <span class="eyebrow" style="color:var(--amber);">Selamat datang</span>
+    <h1 class="intro-title">Ini kartu pesertamu</h1>
+    <p class="intro-sub" id="introHint">Sentuh atau arahkan kursor ke segel untuk membukanya.</p>
+
+    <div class="premium-wrap">
+      <div class="premium-card" id="premiumCard">
+        <div class="premium-letter">
+          <p class="premium-title">Kartu Peserta</p>
+          <p class="premium-line">Nomor Peserta<br><b id="ticketNoDisplay">PTP-000000</b></p>
+          <p class="premium-line">Sesi: Simulasi Gratis · Hari Ini</p>
+          <p class="premium-line">Status: <b id="ticketStatus">Belum ada tes dikerjakan</b></p>
+          <p class="premium-credit">PSYCHOTEST&nbsp;PRO</p>
+        </div>
+        <div class="premium-envelope-mask">
+          <button class="premium-seal" aria-label="Buka kartu peserta">PTP</button>
+          <div class="premium-flap tp"></div>
+          <div class="premium-flap lft"></div>
+          <div class="premium-flap rgt"></div>
+          <div class="premium-flap btm"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-amber intro-continue" onclick="dismissIntro()">Lanjut ke Beranda →</button>
+  </div>
+</div>
+
 <div class="app-shell">
 
   <div class="topbar">
@@ -499,26 +556,6 @@ footer.foot{
       <span class="eyebrow">Latihan sebelum hari-H</span>
       <h1>Biar <em>gugup</em>-nya habis di sini,<br>bukan di ruang ujian.</h1>
       <p>Simulasikan tempo tes koran, tekanan waktu tes pilihan ganda, dan pola pikiran tes kepribadian — lalu lihat hasilnya dalam grafik yang biasa dipakai HR.</p>
-    </div>
-
-    <div class="premium-wrap">
-      <div class="premium-card" id="premiumCard">
-        <div class="premium-letter">
-          <p class="premium-title">Kartu Peserta</p>
-          <p class="premium-line">Nomor Peserta<br><b id="ticketNoDisplay">PTP-000000</b></p>
-          <p class="premium-line">Sesi: Simulasi Gratis · Hari Ini</p>
-          <p class="premium-line">Status: <b id="ticketStatus">Belum ada tes dikerjakan</b></p>
-          <p class="premium-credit">PSYCHOTEST&nbsp;PRO</p>
-        </div>
-        <div class="premium-envelope-mask">
-          <button class="premium-seal" aria-label="Buka kartu peserta">PTP</button>
-          <div class="premium-flap tp"></div>
-          <div class="premium-flap lft"></div>
-          <div class="premium-flap rgt"></div>
-          <div class="premium-flap btm"></div>
-        </div>
-      </div>
-      <p class="premium-hint">Arahkan kursor atau sentuh segel untuk membuka kartu peserta</p>
     </div>
 
     <div class="deck-section">
@@ -597,6 +634,28 @@ footer.foot{
               <span class="tilt-title">SKD CPNS</span>
               <p class="tilt-desc">Simulasi berurutan TWK, TIU, dan TKP ala CAT BKN — skor dibandingkan ambang batas resmi (terskalakan).</p>
               <span class="tilt-cta">Mulai Simulasi</span>
+            </div>
+          </div>
+        </div>
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startEPPS()">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">08</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🧭</span>
+              <span class="tilt-title">EPPS</span>
+              <p class="tilt-desc">Pilihan paksa 14 kebutuhan psikologis Edwards — memetakan motivasi dasar di balik perilaku kerjamu.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
+        </div>
+        <div class="tilt-parent">
+          <div class="tilt-card" onclick="startMCQ('cfit')">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">09</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🧠</span>
+              <span class="tilt-title">CFIT</span>
+              <p class="tilt-desc">Tes kecerdasan non-verbal — pola, klasifikasi, matriks & kondisi bentuk. Bebas bias budaya & bahasa, masih dipakai psikolog HRD.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
             </div>
           </div>
         </div>
@@ -716,6 +775,25 @@ footer.foot{
     </div>
   </section>
 
+  <!-- ===================== VIEW: EPPS ===================== -->
+  <section class="view" id="view-epps">
+    <div class="test-header">
+      <div class="test-title">
+        <h2>EPPS</h2>
+      </div>
+      <span class="pill" id="eppsCounter">1/14</span>
+    </div>
+    <div class="disc-panel">
+      <p class="disc-progress-lbl">Pilih pernyataan yang <b>paling</b> menggambarkan dirimu di lingkungan kerja:</p>
+      <div id="eppsChoiceA" class="disc-choice"></div>
+      <div id="eppsChoiceB" class="disc-choice"></div>
+      <div class="mcq-footer" style="margin-top:18px;">
+        <button class="btn btn-outline" onclick="eppsPrev()">← Sebelumnya</button>
+        <button class="btn btn-primary" id="eppsNextBtn" onclick="eppsNext()">Selanjutnya →</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== VIEW: TKP ===================== -->
   <section class="view" id="view-tkp">
     <div class="warn-banner" id="tkpWarnBanner">⚠ Terdeteksi berpindah tab selama simulasi TKP.</div>
@@ -774,6 +852,12 @@ footer.foot{
       <div id="papiDomains"></div>
     </div>
 
+    <div class="section-block" id="blockEPPS" style="display:none;">
+      <h3>Profil EPPS</h3>
+      <p style="font-size:12px;color:var(--ink-soft);margin:0 0 14px;">Simulasi ringkas 14 pasang pernyataan dari 14 kebutuhan psikologis Edwards (versi asli 225 pasang mencakup 15 kebutuhan) — untuk pengenalan pola tes, bukan hasil psikometrik resmi.</p>
+      <div id="eppsGroups"></div>
+    </div>
+
     <div class="actions-row">
       <button class="btn btn-primary" onclick="goLanding()">Coba Modul Lain</button>
     </div>
@@ -793,7 +877,8 @@ const state = {
   krae: { logs: [], finished:false },
   disc: { answers: [], finished:false },
   papi: { answers: [], finished:false },
-  tkp: { answers: [], finished:false }
+  tkp: { answers: [], finished:false },
+  epps: { answers: [], finished:false }
 };
 
 document.getElementById('targetSelect').addEventListener('change', e=>{ state.target = e.target.value; queueSave(); });
@@ -818,7 +903,7 @@ async function saveProgress(){
   if(typeof window.storage === 'undefined') return;
   if(Date.now() < storageDownUntil) return; // sedang cooldown, jangan spam layanan yang lagi bermasalah
   try{
-    const payload = { ticketNo: state.ticketNo, target: state.target, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp };
+    const payload = { ticketNo: state.ticketNo, target: state.target, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp, epps: state.epps };
     const result = await window.storage.set(STORAGE_KEY, JSON.stringify(payload), false);
     if(!result) throw new Error('Storage set mengembalikan hasil kosong');
     storageWorking = true;
@@ -842,6 +927,7 @@ async function loadProgress(){
       state.disc = parsed.disc || {answers:[], finished:false};
       state.papi = parsed.papi || {answers:[], finished:false};
       state.tkp = parsed.tkp || {answers:[], finished:false};
+      state.epps = parsed.epps || {answers:[], finished:false};
       return true;
     }
   }catch(e){ /* belum ada progres tersimpan — normal untuk pengguna baru */ }
@@ -853,7 +939,7 @@ async function loadProgress(){
   document.getElementById('ticketNoDisplay').textContent = state.ticketNo;
   document.getElementById('targetSelect').value = state.target;
   if(loaded){
-    const anyDone = Object.values(state.mcq).some(s=>s.finished) || state.krae.finished || state.disc.finished || state.papi.finished || state.tkp.finished;
+    const anyDone = Object.values(state.mcq).some(s=>s.finished) || state.krae.finished || state.disc.finished || state.papi.finished || state.tkp.finished || state.epps.finished;
     if(anyDone) setStatus('Progres sebelumnya berhasil dimuat dari perangkat ini');
   }
 })();
@@ -879,23 +965,51 @@ attachTabWarning('kraeWarnBanner');
 attachTabWarning('tkpWarnBanner');
 
 /* ======================================================================
+   INTRO SCREEN (kartu peserta sebagai layar sambutan sebelum beranda)
+   ====================================================================== */
+function dismissIntro(){
+  const screen = document.getElementById('introScreen');
+  if(screen) screen.classList.add('hide');
+}
+
+const isHoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+(function initIntroCard(){
+  const premiumCard = document.getElementById('premiumCard');
+  if(!premiumCard) return;
+  const revealReady = ()=>{
+    const hint = document.getElementById('introHint');
+    if(hint){
+      hint.textContent = 'Sudah lihat kartunya? Lanjut ke beranda kapan pun kamu siap.';
+      hint.classList.add('ready');
+    }
+  };
+  premiumCard.addEventListener('mouseenter', revealReady);
+  premiumCard.addEventListener('click', revealReady);
+  if(!isHoverCapable){
+    premiumCard.addEventListener('click', ()=>{ premiumCard.classList.toggle('opened'); });
+  }
+})();
+
+/* ======================================================================
    MODULE GRID (kartu 3D tilt-hover di beranda)
    Tiap kartu sudah membawa deskripsi & tombol sendiri, jadi tidak perlu
    caption/state tambahan — klik langsung memanggil fungsi start terkait.
    ====================================================================== */
-const isHoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-/* Kartu amplop premium: hover membuka di desktop (CSS saja); di HP perlu tap (JS), karena hover tidak berlaku di layar sentuh */
-if(!isHoverCapable){
-  const premiumCard = document.getElementById('premiumCard');
-  if(premiumCard){
-    premiumCard.addEventListener('click', ()=>{ premiumCard.classList.toggle('opened'); });
-  }
-}
 
 /* ======================================================================
    QUESTION BANK
    ====================================================================== */
+/* Fisher-Yates shuffle — dipakai untuk mengacak urutan soal & opsi jawaban tiap sesi baru */
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
 const BANK = {
   logika: [
     {q:'Lanjutkan deret berikut: 2, 5, 10, 17, 26, ...', opts:['35','36','37','38'], correct:2, exp:'Selisih antar suku bertambah 2 setiap langkah (3,5,7,9,11). 26+11=37.'},
@@ -964,6 +1078,29 @@ const BANK = {
     {sub:'Figural', q:'Bentuk mana yang tidak sekelompok dengan lainnya: ■ ▲ ⬟ ●', opts:['■','▲','⬟','●'], correct:3, exp:'■▲⬟ adalah poligon bersisi lurus, sedangkan ● adalah bentuk bulat tanpa sisi.'},
     {sub:'Figural', q:'Jika bentuk "◺" dicerminkan secara horizontal, hasilnya adalah...', opts:['◺','◹','◸','◿'], correct:3, exp:'Pencerminan horizontal pada segitiga siku di kiri-bawah memindahkannya ke kanan-bawah (◿).'},
     {sub:'Verbal', q:'BUKU : PENGARANG = LAGU : ...', opts:['Penyanyi','Pencipta','Produser','Pendengar'], correct:1, exp:'Analogi pembuat karya: buku dibuat pengarang, lagu dibuat pencipta lagu.'}
+  ],
+  cfit: [
+    {sub:'Seri', q:'Lanjutkan pola berikut:', shapes:['↑','→','↓','←','↑'], opts:['↑','→','↓','←'], correct:1, exp:'Pola rotasi 90° searah jarum jam tiap langkah: setelah ↑ berikutnya →.'},
+    {sub:'Seri', q:'Lanjutkan pola berikut:', shapes:['▪','◾','⬛','▪','◾'], opts:['▪','◾','⬛','■'], correct:2, exp:'Pola ukuran mengecil-membesar berulang (kecil-sedang-besar), posisi berikutnya kembali ke ukuran besar (⬛).'},
+    {sub:'Seri', q:'Lanjutkan pola berikut:', shapes:['◐','◓','◑','◒'], opts:['◐','◓','◑','◒'], correct:0, exp:'Bagian terisi lingkaran berputar searah jarum jam, kembali ke posisi awal setelah 4 langkah.'},
+    {sub:'Seri', q:'Lanjutkan pola berikut:', shapes:['⬡','⬢','⬡','⬢','⬡'], opts:['⬡','⬢','▲','●'], correct:1, exp:'Pola bergantian garis luar dan terisi, giliran berikutnya bentuk terisi (⬢).'},
+    {sub:'Seri', q:'Lanjutkan pola berikut:', shapes:['▲','▲▲','▲▲▲','▲▲▲▲'], opts:['▲▲▲','▲▲▲▲','▲▲▲▲▲','▲▲▲▲▲▲'], correct:2, exp:'Jumlah bentuk bertambah 1 tiap langkah, dari 4 menjadi 5 (▲▲▲▲▲).'},
+    {sub:'Seri', q:'Lanjutkan pola berikut:', shapes:['↖','↗','↘','↙','↖'], opts:['↖','↗','↘','↙'], correct:1, exp:'Rotasi arah panah sudut searah jarum jam, setelah ↖ berikutnya ↗.'},
+    {sub:'Klasifikasi', q:'Manakah bentuk yang tidak sekelompok dengan yang lain?', opts:['▲','■','●','⬟','◇'], correct:4, exp:'▲■●⬟ adalah bentuk yang terisi penuh, sedangkan ◇ hanya garis luar (tidak terisi).'},
+    {sub:'Klasifikasi', q:'Manakah bentuk yang tidak sekelompok dengan yang lain?', opts:['↗','↗','↗','↙','↗'], correct:3, exp:'Empat panah mengarah timur laut (↗), satu berlawanan arah ke barat daya (↙).'},
+    {sub:'Klasifikasi', q:'Manakah bentuk yang tidak sekelompok dengan yang lain?', opts:['○','□','✕','△','◇'], correct:2, exp:'○□△◇ adalah bidang tertutup, sedangkan ✕ adalah tanda silang terbuka, bukan bidang tertutup.'},
+    {sub:'Klasifikasi', q:'Manakah bentuk yang tidak sekelompok dengan yang lain?', opts:['■','⬡','◆','□','▲'], correct:4, exp:'■⬡◆□ memiliki jumlah sisi genap (4 atau 6), sedangkan ▲ memiliki 3 sisi (ganjil).'},
+    {sub:'Klasifikasi', q:'Manakah bentuk yang tidak sekelompok dengan yang lain?', opts:['▲','●','■','◆','◺'], correct:4, exp:'▲●■◆ adalah bentuk simetris, sedangkan ◺ (segitiga siku) tidak simetris.'},
+    {sub:'Klasifikasi', q:'Manakah bentuk yang tidak sekelompok dengan yang lain?', opts:['⬤','⬤','◐','⬤','⬤'], correct:2, exp:'Empat bentuk terisi penuh, satu (◐) hanya terisi separuh.'},
+    {sub:'Matriks', q:'Lengkapi pola pada kotak yang kosong:', matrix:['↑','→','←','?'], opts:['↑','↓','←','→'], correct:0, exp:'Kolom kanan adalah kolom kiri yang diputar 90° searah jarum jam: ↑→→, sehingga ← akan menjadi ↑.'},
+    {sub:'Matriks', q:'Lengkapi pola pada kotak yang kosong:', matrix:['○','●','△','?'], opts:['△','▲','▽','▼'], correct:1, exp:'Kolom kanan adalah versi terisi (gelap) dari kolom kiri: ○→●, sehingga △ akan menjadi ▲.'},
+    {sub:'Matriks', q:'Lengkapi pola pada kotak yang kosong:', matrix:['●','●●','●●●','?'], opts:['●●','●●●','●●●●','●●●●●'], correct:2, exp:'Kolom kanan selalu menambah satu bentuk dari kolom kiri: ●→●●, sehingga ●●● akan menjadi ●●●●.'},
+    {sub:'Matriks', q:'Lengkapi pola pada kotak yang kosong:', matrix:['▲','■','⬠','?'], opts:['⬟','⬡','⬢','◯'], correct:1, exp:'Kolom kanan selalu menambah satu sisi dari kolom kiri: segitiga(3)→persegi(4), sehingga pentagon(5) menjadi heksagon(6, ⬡).'},
+    {sub:'Kondisi', q:'Aturan: bentuk harus BERSUDUT dan TERISI PENUH (gelap). Manakah yang memenuhi kedua syarat ini?', opts:['○','△','▲','◇'], correct:2, exp:'▲ memenuhi keduanya: bersudut dan terisi penuh. ○ tidak bersudut, △ dan ◇ tidak terisi.'},
+    {sub:'Kondisi', q:'Aturan: bentuk harus BULAT (tanpa sudut) dan HANYA GARIS LUAR (tidak terisi). Manakah yang memenuhi kedua syarat ini?', opts:['●','○','■','▲'], correct:1, exp:'○ memenuhi keduanya: bulat dan hanya garis luar. ● bulat tapi terisi, ■ dan ▲ bersudut.'},
+    {sub:'Kondisi', q:'Aturan: bentuk harus LEBIH DARI 4 SISI dan HANYA GARIS LUAR (terang). Manakah yang memenuhi kedua syarat ini?', opts:['⬡','⬢','△','◇'], correct:0, exp:'⬡ memenuhi keduanya: 6 sisi dan hanya garis luar. ⬢ terisi, △ dan ◇ sisinya tidak lebih dari 4.'},
+    {sub:'Kondisi', q:'Aturan: bentuk harus TEPAT 4 SISI dan TERISI PENUH (gelap). Manakah yang memenuhi kedua syarat ini?', opts:['■','□','▲','●'], correct:0, exp:'■ memenuhi keduanya: 4 sisi dan terisi penuh. □ tidak terisi, ▲ dan ● bukan 4 sisi.'},
+    {sub:'Kondisi', q:'Aturan: bentuk harus BULAT dan TERISI PENUH (gelap). Manakah yang memenuhi kedua syarat ini?', opts:['●','○','■','▲'], correct:0, exp:'● memenuhi keduanya: bulat dan terisi penuh. ○ bulat tapi tidak terisi, ■ dan ▲ tidak bulat.'}
   ]
 };
 
@@ -975,17 +1112,20 @@ let mcqTimerInterval = null;
 
 function startMCQ(cat){
   mcqCat = cat;
-  if(!state.mcq[cat]){
+  if(!state.mcq[cat] || !state.mcq[cat].order){
+    const n = BANK[cat].length;
     state.mcq[cat] = {
-      answers: new Array(BANK[cat].length).fill(null),
-      ragu: new Array(BANK[cat].length).fill(false),
+      answers: new Array(n).fill(null),
+      ragu: new Array(n).fill(false),
+      order: shuffleArray([...Array(n).keys()]),
+      optionOrder: BANK[cat].map(q => shuffleArray([...Array(q.opts.length).keys()])),
       index: 0,
       finished:false,
       startedAt: Date.now(),
       timeUsed:0
     };
   }
-  const titles = {logika:'Logika & Angka', verbal:'Verbal', spasial:'Spasial', twk:'TWK — Wawasan Kebangsaan', tiu:'TIU — Intelegensia Umum'};
+  const titles = {logika:'Logika & Angka', verbal:'Verbal', spasial:'Spasial', twk:'TWK — Wawasan Kebangsaan', tiu:'TIU — Intelegensia Umum', cfit:'CFIT — Tes Kecerdasan Non-Verbal'};
   document.getElementById('mcqCategoryTitle').textContent = titles[cat] || cat;
   document.getElementById('mcqWarnBanner').classList.remove('show');
   renderMCQ();
@@ -994,7 +1134,8 @@ function startMCQ(cat){
 
 function renderMCQ(){
   const s = state.mcq[mcqCat];
-  const q = BANK[mcqCat][s.index];
+  const origIdx = s.order[s.index];
+  const q = BANK[mcqCat][origIdx];
   document.getElementById('mcqCounter').textContent = `Soal ${s.index+1}/${BANK[mcqCat].length}`;
   document.getElementById('mcqQuestionText').textContent = (q.sub ? `[${q.sub}] ` : '') + q.q;
 
@@ -1014,28 +1155,40 @@ function renderMCQ(){
     row.appendChild(slot);
     shapeRow.appendChild(row);
   }
+  if(q.matrix){
+    const grid = document.createElement('div');
+    grid.className = 'matrix-grid';
+    q.matrix.forEach(cell=>{
+      const cellEl = document.createElement('div');
+      cellEl.className = 'matrix-cell' + (cell==='?' ? ' slot':'');
+      cellEl.textContent = cell;
+      grid.appendChild(cellEl);
+    });
+    shapeRow.appendChild(grid);
+  }
 
   const optsEl = document.getElementById('mcqOptions');
   optsEl.innerHTML = '';
   const letters = ['A','B','C','D'];
-  q.opts.forEach((opt,i)=>{
+  const optOrder = s.optionOrder[origIdx];
+  optOrder.forEach((origOptIdx, displayIdx)=>{
     const div = document.createElement('div');
-    div.className = 'option' + (s.answers[s.index]===i ? ' selected':'');
-    div.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
-    div.onclick = ()=>{ s.answers[s.index]=i; renderMCQ(); queueSave(); };
+    div.className = 'option' + (s.answers[origIdx]===origOptIdx ? ' selected':'');
+    div.innerHTML = `<span class="opt-letter">${letters[displayIdx]}</span><span>${q.opts[origOptIdx]}</span>`;
+    div.onclick = ()=>{ s.answers[origIdx]=origOptIdx; renderMCQ(); queueSave(); };
     optsEl.appendChild(div);
   });
 
-  // nav grid
+  // nav grid — iterasi berdasar urutan tampilan (presentation order), bukan urutan asli BANK
   const nav = document.getElementById('mcqNavGrid');
   nav.innerHTML='';
-  BANK[mcqCat].forEach((_,i)=>{
+  s.order.forEach((oi, p)=>{
     const btn = document.createElement('button');
     btn.className = 'nav-dot' +
-      (i===s.index ? ' current':'') +
-      (s.ragu[i] ? ' ragu' : (s.answers[i]!==null ? ' answered':''));
-    btn.textContent = i+1;
-    btn.onclick = ()=>{ s.index=i; renderMCQ(); };
+      (p===s.index ? ' current':'') +
+      (s.ragu[oi] ? ' ragu' : (s.answers[oi]!==null ? ' answered':''));
+    btn.textContent = p+1;
+    btn.onclick = ()=>{ s.index=p; renderMCQ(); };
     nav.appendChild(btn);
   });
 
@@ -1056,7 +1209,8 @@ function mcqNext(){
 }
 function mcqToggleRagu(){
   const s = state.mcq[mcqCat];
-  s.ragu[s.index] = !s.ragu[s.index];
+  const origIdx = s.order[s.index];
+  s.ragu[origIdx] = !s.ragu[origIdx];
   renderMCQ();
   queueSave();
 }
@@ -1265,28 +1419,36 @@ let discIndex = 0;
 
 function startDISC(){
   discIndex = 0;
-  state.disc.answers = new Array(DISC_PAIRS.length).fill(null);
+  const n = DISC_PAIRS.length;
+  state.disc.order = shuffleArray([...Array(n).keys()]);
+  state.disc.swap = Array.from({length:n}, ()=>Math.random()<0.5);
+  state.disc.answers = new Array(n).fill(null);
   renderDISC();
   switchView('view-disc');
 }
 
 function renderDISC(){
-  const pair = DISC_PAIRS[discIndex];
+  const origIdx = state.disc.order[discIndex];
+  const swap = state.disc.swap[origIdx];
+  const pair = DISC_PAIRS[origIdx];
+  const leftOrig = swap ? 1 : 0;
+  const rightOrig = swap ? 0 : 1;
   document.getElementById('discCounter').textContent = `${discIndex+1}/${DISC_PAIRS.length}`;
   const a = document.getElementById('discChoiceA');
   const b = document.getElementById('discChoiceB');
-  const chosen = state.disc.answers[discIndex];
-  a.className = 'disc-choice' + (chosen===0 ? ' selected':'');
-  b.className = 'disc-choice' + (chosen===1 ? ' selected':'');
-  a.innerHTML = `<span class="opt-letter">A</span><span>${pair[0].t}</span>`;
-  b.innerHTML = `<span class="opt-letter">B</span><span>${pair[1].t}</span>`;
-  a.onclick = ()=>{ state.disc.answers[discIndex]=0; renderDISC(); queueSave(); };
-  b.onclick = ()=>{ state.disc.answers[discIndex]=1; renderDISC(); queueSave(); };
+  const chosen = state.disc.answers[origIdx];
+  a.className = 'disc-choice' + (chosen===leftOrig ? ' selected':'');
+  b.className = 'disc-choice' + (chosen===rightOrig ? ' selected':'');
+  a.innerHTML = `<span class="opt-letter">A</span><span>${pair[leftOrig].t}</span>`;
+  b.innerHTML = `<span class="opt-letter">B</span><span>${pair[rightOrig].t}</span>`;
+  a.onclick = ()=>{ state.disc.answers[origIdx]=leftOrig; renderDISC(); queueSave(); };
+  b.onclick = ()=>{ state.disc.answers[origIdx]=rightOrig; renderDISC(); queueSave(); };
   document.getElementById('discNextBtn').textContent = discIndex===DISC_PAIRS.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
 function discPrev(){ if(discIndex>0){ discIndex--; renderDISC(); } }
 function discNext(){
-  if(state.disc.answers[discIndex]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
+  const origIdx = state.disc.order[discIndex];
+  if(state.disc.answers[origIdx]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
   if(discIndex < DISC_PAIRS.length-1){ discIndex++; renderDISC(); }
   else { finishDISC(); }
 }
@@ -1309,6 +1471,7 @@ function showResults(){
   renderDISCResults();
   renderPAPIResults();
   renderSKDResults();
+  renderEPPSResults();
   switchView('view-results');
 }
 
@@ -1518,28 +1681,36 @@ let papiIndex = 0;
 
 function startPAPI(){
   papiIndex = 0;
-  state.papi.answers = new Array(PAPI_PAIRS.length).fill(null);
+  const n = PAPI_PAIRS.length;
+  state.papi.order = shuffleArray([...Array(n).keys()]);
+  state.papi.swap = Array.from({length:n}, ()=>Math.random()<0.5);
+  state.papi.answers = new Array(n).fill(null);
   renderPAPI();
   switchView('view-papi');
 }
 
 function renderPAPI(){
-  const pair = PAPI_PAIRS[papiIndex];
+  const origIdx = state.papi.order[papiIndex];
+  const swap = state.papi.swap[origIdx];
+  const pair = PAPI_PAIRS[origIdx];
+  const leftOrig = swap ? 1 : 0;
+  const rightOrig = swap ? 0 : 1;
   document.getElementById('papiCounter').textContent = `${papiIndex+1}/${PAPI_PAIRS.length}`;
   const a = document.getElementById('papiChoiceA');
   const b = document.getElementById('papiChoiceB');
-  const chosen = state.papi.answers[papiIndex];
-  a.className = 'disc-choice' + (chosen===0 ? ' selected':'');
-  b.className = 'disc-choice' + (chosen===1 ? ' selected':'');
-  a.innerHTML = `<span class="opt-letter">A</span><span>${pair[0].t}</span>`;
-  b.innerHTML = `<span class="opt-letter">B</span><span>${pair[1].t}</span>`;
-  a.onclick = ()=>{ state.papi.answers[papiIndex]=0; renderPAPI(); queueSave(); };
-  b.onclick = ()=>{ state.papi.answers[papiIndex]=1; renderPAPI(); queueSave(); };
+  const chosen = state.papi.answers[origIdx];
+  a.className = 'disc-choice' + (chosen===leftOrig ? ' selected':'');
+  b.className = 'disc-choice' + (chosen===rightOrig ? ' selected':'');
+  a.innerHTML = `<span class="opt-letter">A</span><span>${pair[leftOrig].t}</span>`;
+  b.innerHTML = `<span class="opt-letter">B</span><span>${pair[rightOrig].t}</span>`;
+  a.onclick = ()=>{ state.papi.answers[origIdx]=leftOrig; renderPAPI(); queueSave(); };
+  b.onclick = ()=>{ state.papi.answers[origIdx]=rightOrig; renderPAPI(); queueSave(); };
   document.getElementById('papiNextBtn').textContent = papiIndex===PAPI_PAIRS.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
 function papiPrev(){ if(papiIndex>0){ papiIndex--; renderPAPI(); } }
 function papiNext(){
-  if(state.papi.answers[papiIndex]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
+  const origIdx = state.papi.order[papiIndex];
+  if(state.papi.answers[origIdx]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
   if(papiIndex < PAPI_PAIRS.length-1){ papiIndex++; renderPAPI(); }
   else { finishPAPI(); }
 }
@@ -1659,32 +1830,38 @@ let tkpIndex = 0;
 
 function startTKP(){
   tkpIndex = 0;
-  state.tkp.answers = new Array(TKP_BANK.length).fill(null);
+  const n = TKP_BANK.length;
+  state.tkp.order = shuffleArray([...Array(n).keys()]);
+  state.tkp.optionOrder = TKP_BANK.map(item => shuffleArray([...Array(item.opts.length).keys()]));
+  state.tkp.answers = new Array(n).fill(null);
   document.getElementById('tkpWarnBanner').classList.remove('show');
   renderTKP();
   switchView('view-tkp');
 }
 
 function renderTKP(){
-  const item = TKP_BANK[tkpIndex];
+  const origIdx = state.tkp.order[tkpIndex];
+  const item = TKP_BANK[origIdx];
+  const optOrder = state.tkp.optionOrder[origIdx];
   document.getElementById('tkpCounter').textContent = `Soal ${tkpIndex+1}/${TKP_BANK.length}`;
   document.getElementById('tkpQuestionText').textContent = item.q;
   const optsEl = document.getElementById('tkpOptions');
   optsEl.innerHTML = '';
   const letters = ['A','B','C','D','E'];
-  const chosen = state.tkp.answers[tkpIndex];
-  item.opts.forEach((opt,i)=>{
+  const chosen = state.tkp.answers[origIdx];
+  optOrder.forEach((origOptIdx, displayIdx)=>{
     const div = document.createElement('div');
-    div.className = 'option' + (chosen===i ? ' selected':'');
-    div.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt.t}</span>`;
-    div.onclick = ()=>{ state.tkp.answers[tkpIndex]=i; renderTKP(); queueSave(); };
+    div.className = 'option' + (chosen===origOptIdx ? ' selected':'');
+    div.innerHTML = `<span class="opt-letter">${letters[displayIdx]}</span><span>${item.opts[origOptIdx].t}</span>`;
+    div.onclick = ()=>{ state.tkp.answers[origIdx]=origOptIdx; renderTKP(); queueSave(); };
     optsEl.appendChild(div);
   });
   document.getElementById('tkpNextBtn').textContent = tkpIndex===TKP_BANK.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
 function tkpPrev(){ if(tkpIndex>0){ tkpIndex--; renderTKP(); } }
 function tkpNext(){
-  if(state.tkp.answers[tkpIndex]===null){ alert('Pilih salah satu jawaban dulu ya.'); return; }
+  const origIdx = state.tkp.order[tkpIndex];
+  if(state.tkp.answers[origIdx]===null){ alert('Pilih salah satu jawaban dulu ya.'); return; }
   if(tkpIndex < TKP_BANK.length-1){ tkpIndex++; renderTKP(); }
   else { finishTKP(); }
 }
@@ -1770,6 +1947,142 @@ function renderSKDResults(){
     : '⚠️ <b>Belum memenuhi ambang batas</b> di salah satu subtes — sistem SKD asli menggugurkan peserta walau nilai subtes lain tinggi, jadi coba fokus latihan di bagian yang masih di bawah garis.';
 }
 
+/* ======================================================================
+   EPPS ENGINE (Edwards Personal Preference Schedule)
+   14 dari 15 kebutuhan psikologis resmi Edwards — dimensi "Heteroseksualitas"
+   sengaja tidak disertakan karena menyangkut topik orientasi/ketertarikan
+   seksual yang tidak relevan untuk konteks tes kerja. Format pilihan paksa
+   seperti aslinya; versi ringkas: 14 pasang (tiap aspek muncul 2x).
+   ====================================================================== */
+const EPPS_LABELS = {
+  ach:'Achievement (Berprestasi)', def:'Deference (Mengalah/Menghormati)', ord:'Order (Keteraturan)',
+  exh:'Exhibition (Menonjolkan Diri)', aut:'Autonomy (Kemandirian)', aff:'Affiliation (Afiliasi)',
+  int:'Intraception (Introspeksi)', suc:'Succorance (Mencari Dukungan)', dom:'Dominance (Dominasi)',
+  aba:'Abasement (Merendah)', nur:'Nurturance (Memberi Bantuan)', chg:'Change (Perubahan)',
+  end:'Endurance (Ketekunan)', agg:'Aggression (Agresivitas)'
+};
+const EPPS_DESC = {
+  ach:'Dorongan untuk berprestasi dan mengerjakan sesuatu sebaik mungkin.',
+  def:'Kecenderungan mengikuti arahan dan menghormati pendapat orang lain.',
+  ord:'Kebutuhan akan keteraturan, kerapian, dan perencanaan yang jelas.',
+  exh:'Keinginan untuk tampil, diperhatikan, dan menjadi pusat perhatian.',
+  aut:'Kebutuhan untuk mandiri dan bebas dari campur tangan orang lain.',
+  aff:'Kebutuhan menjalin kedekatan dan persahabatan dengan orang lain.',
+  int:'Kecenderungan menganalisis perasaan dan motif diri maupun orang lain.',
+  suc:'Kebutuhan mendapat dukungan dan simpati orang lain saat kesulitan.',
+  dom:'Dorongan untuk memimpin dan memengaruhi orang lain.',
+  aba:'Kecenderungan merasa bersalah dan menerima kesalahan dengan lapang dada.',
+  nur:'Kecenderungan membantu, merawat, dan mendukung orang lain.',
+  chg:'Kebutuhan akan variasi dan pengalaman baru, tidak suka rutinitas.',
+  end:'Ketekunan menuntaskan pekerjaan sampai selesai.',
+  agg:'Kecenderungan menyampaikan kritik atau pendapat secara tegas/blak-blakan.'
+};
+const EPPS_GROUPS = [
+  {name:'Orientasi Prestasi & Kerja', aspects:['ach','ord','end','chg']},
+  {name:'Relasi Sosial', aspects:['aff','nur','suc','exh']},
+  {name:'Gaya Kepemimpinan & Sikap', aspects:['dom','agg','aut','def']},
+  {name:'Regulasi Diri', aspects:['int','aba']}
+];
+const EPPS_PAIRS = [
+  [{t:'Saya selalu berusaha mengerjakan sesuatu sebaik dan sesempurna mungkin', k:'ach'}, {t:'Saya nyaman mengikuti saran dan arahan dari orang yang lebih berpengalaman', k:'def'}],
+  [{t:'Saya suka merencanakan pekerjaan secara rapi dan terjadwal sebelum memulainya', k:'ord'}, {t:'Saya senang menjadi pusat perhatian dan berbicara di depan banyak orang', k:'exh'}],
+  [{t:'Saya lebih suka bekerja dengan cara saya sendiri tanpa banyak diatur orang lain', k:'aut'}, {t:'Saya senang menjalin dan menjaga persahabatan yang erat dengan rekan kerja', k:'aff'}],
+  [{t:'Saya suka menganalisis motif dan perasaan di balik tindakan diri sendiri maupun orang lain', k:'int'}, {t:'Saya merasa nyaman meminta bantuan orang lain saat menghadapi kesulitan', k:'suc'}],
+  [{t:'Saya senang mengambil peran memimpin dan mengarahkan kelompok', k:'dom'}, {t:'Saya mudah merasa bersalah dan menerima kritik ketika melakukan kesalahan', k:'aba'}],
+  [{t:'Saya senang membantu dan memberi dukungan kepada orang yang kesulitan', k:'nur'}, {t:'Saya senang mencoba hal-hal baru dan menghindari rutinitas yang monoton', k:'chg'}],
+  [{t:'Saya terbiasa menuntaskan pekerjaan sampai selesai meski harus bekerja lebih lama', k:'end'}, {t:'Saya tidak segan menyampaikan kritik tajam terhadap pendapat yang saya anggap salah', k:'agg'}],
+  [{t:'Saya terdorong mencapai hasil terbaik dalam setiap tugas yang saya kerjakan', k:'ach'}, {t:'Saya suka merenungkan alasan di balik perasaan dan sikap saya sendiri', k:'int'}],
+  [{t:'Saya menghargai dan mengikuti keputusan yang sudah disepakati atasan', k:'def'}, {t:'Saya senang merawat dan memperhatikan kebutuhan rekan kerja', k:'nur'}],
+  [{t:'Saya merasa lebih tenang bila pekerjaan tersusun rapi dan sistematis', k:'ord'}, {t:'Saya tetap gigih mengerjakan tugas sampai benar-benar tuntas', k:'end'}],
+  [{t:'Saya senang tampil dan menunjukkan hasil kerja saya ke banyak orang', k:'exh'}, {t:'Saya nyaman mengarahkan dan memengaruhi jalannya diskusi kelompok', k:'dom'}],
+  [{t:'Saya lebih suka menentukan sendiri cara menyelesaikan pekerjaan saya', k:'aut'}, {t:'Saya senang mencoba pendekatan baru dibanding cara yang itu-itu saja', k:'chg'}],
+  [{t:'Saya senang menjaga kedekatan dan kehangatan hubungan dengan rekan kerja', k:'aff'}, {t:'Saya merasa lega ketika ada orang lain yang bisa saya andalkan saat kesulitan', k:'suc'}],
+  [{t:'Saya menerima kesalahan saya dengan lapang dada dan introspeksi diri', k:'aba'}, {t:'Saya berani bersuara tegas walau pendapat saya berbeda dari kebanyakan', k:'agg'}]
+];
+
+let eppsIndex = 0;
+
+function startEPPS(){
+  eppsIndex = 0;
+  const n = EPPS_PAIRS.length;
+  state.epps.order = shuffleArray([...Array(n).keys()]);
+  state.epps.swap = Array.from({length:n}, ()=>Math.random()<0.5);
+  state.epps.answers = new Array(n).fill(null);
+  renderEPPS();
+  switchView('view-epps');
+}
+
+function renderEPPS(){
+  const origIdx = state.epps.order[eppsIndex];
+  const swap = state.epps.swap[origIdx];
+  const pair = EPPS_PAIRS[origIdx];
+  const leftOrig = swap ? 1 : 0;
+  const rightOrig = swap ? 0 : 1;
+  document.getElementById('eppsCounter').textContent = `${eppsIndex+1}/${EPPS_PAIRS.length}`;
+  const a = document.getElementById('eppsChoiceA');
+  const b = document.getElementById('eppsChoiceB');
+  const chosen = state.epps.answers[origIdx];
+  a.className = 'disc-choice' + (chosen===leftOrig ? ' selected':'');
+  b.className = 'disc-choice' + (chosen===rightOrig ? ' selected':'');
+  a.innerHTML = `<span class="opt-letter">A</span><span>${pair[leftOrig].t}</span>`;
+  b.innerHTML = `<span class="opt-letter">B</span><span>${pair[rightOrig].t}</span>`;
+  a.onclick = ()=>{ state.epps.answers[origIdx]=leftOrig; renderEPPS(); queueSave(); };
+  b.onclick = ()=>{ state.epps.answers[origIdx]=rightOrig; renderEPPS(); queueSave(); };
+  document.getElementById('eppsNextBtn').textContent = eppsIndex===EPPS_PAIRS.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
+}
+function eppsPrev(){ if(eppsIndex>0){ eppsIndex--; renderEPPS(); } }
+function eppsNext(){
+  const origIdx = state.epps.order[eppsIndex];
+  if(state.epps.answers[origIdx]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
+  if(eppsIndex < EPPS_PAIRS.length-1){ eppsIndex++; renderEPPS(); }
+  else { finishEPPS(); }
+}
+function finishEPPS(){
+  state.epps.finished = true;
+  setStatus('Simulasi EPPS selesai');
+  saveProgress();
+  showResults();
+}
+
+function eppsTally(){
+  const tally = {};
+  Object.keys(EPPS_LABELS).forEach(k=>tally[k]=0);
+  state.epps.answers.forEach((ans,i)=>{
+    if(ans===null) return;
+    const k = EPPS_PAIRS[i][ans].k;
+    tally[k]++;
+  });
+  return tally;
+}
+
+function renderEPPSResults(){
+  const block = document.getElementById('blockEPPS');
+  if(!state.epps.finished){ block.style.display='none'; return; }
+  block.style.display='block';
+  const tally = eppsTally();
+  const wrap = document.getElementById('eppsGroups');
+  wrap.innerHTML = '';
+  EPPS_GROUPS.forEach(grp=>{
+    const grpDiv = document.createElement('div');
+    grpDiv.style.marginBottom = '14px';
+    const title = document.createElement('div');
+    title.style.cssText = 'font-family:var(--font-mono);font-size:11px;color:var(--ink-navy);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:6px;';
+    title.textContent = grp.name;
+    grpDiv.appendChild(title);
+    grp.aspects.forEach(k=>{
+      const score = tally[k];
+      const row = document.createElement('div');
+      row.className = 'disc-bar-row';
+      row.innerHTML = `<span class="letter" style="width:auto;font-size:10px;">${k}</span><div class="disc-bar-track"><div class="disc-bar-fill" style="width:${score/2*100}%;"></div></div><span class="val">${score}/2</span>`;
+      grpDiv.appendChild(row);
+      const desc = document.createElement('div');
+      desc.style.cssText = 'font-size:11.5px;color:var(--ink-soft);margin:2px 0 8px;';
+      desc.textContent = EPPS_LABELS[k] + ' — ' + EPPS_DESC[k];
+      grpDiv.appendChild(desc);
+    });
+    wrap.appendChild(grpDiv);
+  });
+}
 </script>
 </body>
 </html>
