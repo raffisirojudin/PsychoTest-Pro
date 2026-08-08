@@ -132,14 +132,13 @@ body.no-ruled{background-image:none;}
 .hero-deco{position:absolute;inset:0;pointer-events:none;display:none;overflow:visible;}
 @media (min-width:640px){.hero-deco{display:block;}}
 .hero-deco-box{
-  position:absolute;left:var(--gugup-x);top:var(--gugup-y);width:var(--gugup-w);height:var(--gugup-h);
-  border:2px solid var(--amber);border-radius:4px;background:rgba(224,147,47,.08);
-  opacity:0;animation:hero-box-show 6s ease infinite;
-  transition:left .2s ease, top .2s ease, width .2s ease, height .2s ease;
+  position:absolute;top:var(--gugup-y);height:var(--gugup-h);
+  border:2px solid var(--amber);border-radius:4px;background:rgba(224,147,47,.1);
+  opacity:0;animation:hero-box-select 8s cubic-bezier(.4,0,.2,1) infinite;
 }
 .hero-deco-cursor{
   position:absolute;top:0;left:0;display:flex;align-items:flex-end;
-  opacity:0;animation:hero-cursor-move 6s ease infinite;
+  opacity:0;animation:hero-cursor-select 8s cubic-bezier(.4,0,.2,1) infinite;
 }
 .hero-deco-arrow{
   width:16px;height:20px;fill:var(--ink-navy);flex:none;
@@ -151,19 +150,25 @@ body.no-ruled{background-image:none;}
   padding:4px 11px;border-radius:0 6px 6px 6px;white-space:nowrap;
   transform:translate(-2px,3px);box-shadow:0 3px 8px rgba(27,42,74,.3);
 }
-@keyframes hero-box-show{
-  0%,15%{opacity:0;}
-  20%,45%{opacity:1;}
-  50%,100%{opacity:0;}
+/* kotak seleksi: mulai lebar 0 di awal kata, tumbuh ke kanan mengikuti drag, tetap penuh sesaat, lalu hilang */
+@keyframes hero-box-select{
+  0%,13%{opacity:0;left:var(--gugup-x);width:0;}
+  17%{opacity:1;left:var(--gugup-x);width:0;}
+  50%{opacity:1;left:var(--gugup-x);width:var(--gugup-w);}
+  80%{opacity:1;left:var(--gugup-x);width:var(--gugup-w);}
+  92%,100%{opacity:0;left:var(--gugup-x);width:var(--gugup-w);}
 }
-@keyframes hero-cursor-move{
-  0%{opacity:0;transform:translate(calc(var(--gugup-x) + 260px),-14px);}
-  15%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 2px));}
-  45%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 2px));}
-  50%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 2px)) scale(.92);}
-  55%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 2px)) scale(1);}
-  80%{opacity:1;transform:translate(calc(var(--gugup-x) + 90px),var(--line2-y));}
-  100%{opacity:0;transform:translate(calc(var(--gugup-x) + 90px),var(--line2-y));}
+/* kursor: terbang masuk → klik-tahan di awal kata → seret ke kanan → lepas klik di akhir kata → jeda → menghilang */
+@keyframes hero-cursor-select{
+  0%{opacity:0;transform:translate(calc(var(--gugup-x) + 220px),calc(var(--gugup-y) - 4px));}
+  13%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px));}
+  17%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px)) scale(.88);}
+  21%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px)) scale(1);}
+  50%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
+  54%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(.88);}
+  58%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
+  80%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
+  92%,100%{opacity:0;transform:translate(calc(var(--gugup-x) + var(--gugup-w) + 30px),calc(var(--gugup-y) + 24px)) scale(1);}
 }
 
 /* ============ ONBOARDING (kartu cara pakai singkat, muncul sekali) ============ */
