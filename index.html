@@ -124,6 +124,69 @@ body.no-ruled{background-image:none;}
 .hero h1 em{font-style:italic;color:var(--amber);}
 .hero p{font-size:16px;line-height:1.6;color:var(--ink-soft);max-width:560px;margin:0 0 26px;}
 
+/* ============ HERO CURSOR DECO (diadaptasi dari Uiverse.io by Darlley) ============ */
+.hero-title-wrap{
+  position:relative;display:inline-block;max-width:100%;
+  --gugup-x:150px;--gugup-y:-10px;--gugup-w:150px;--gugup-h:56px;--line2-y:90px;
+}
+.hero-deco{position:absolute;inset:0;pointer-events:none;display:none;overflow:visible;}
+@media (min-width:640px){.hero-deco{display:block;}}
+.hero-deco-box{
+  position:absolute;left:var(--gugup-x);top:var(--gugup-y);width:var(--gugup-w);height:var(--gugup-h);
+  border:2px solid var(--amber);border-radius:4px;background:rgba(224,147,47,.08);
+  opacity:0;animation:hero-box-show 6s ease infinite;
+  transition:left .2s ease, top .2s ease, width .2s ease, height .2s ease;
+}
+.hero-deco-cursor{
+  position:absolute;top:0;left:0;display:flex;align-items:flex-end;
+  opacity:0;animation:hero-cursor-move 6s ease infinite;
+}
+.hero-deco-arrow{
+  width:16px;height:20px;fill:var(--ink-navy);flex:none;
+  filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.35));
+}
+.hero-deco-tag{
+  background:var(--ink-navy);color:var(--white);
+  font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.02em;
+  padding:4px 11px;border-radius:0 6px 6px 6px;white-space:nowrap;
+  transform:translate(-2px,3px);box-shadow:0 3px 8px rgba(27,42,74,.3);
+}
+@keyframes hero-box-show{
+  0%,15%{opacity:0;}
+  20%,45%{opacity:1;}
+  50%,100%{opacity:0;}
+}
+@keyframes hero-cursor-move{
+  0%{opacity:0;transform:translate(calc(var(--gugup-x) + 260px),-14px);}
+  15%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 2px));}
+  45%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 2px));}
+  50%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 2px)) scale(.92);}
+  55%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 2px)) scale(1);}
+  80%{opacity:1;transform:translate(calc(var(--gugup-x) + 90px),var(--line2-y));}
+  100%{opacity:0;transform:translate(calc(var(--gugup-x) + 90px),var(--line2-y));}
+}
+
+/* ============ ONBOARDING (kartu cara pakai singkat, muncul sekali) ============ */
+.onboard-card{
+  position:relative;
+  background:var(--paper-2);border:1.5px dashed var(--amber);border-radius:var(--radius);
+  padding:18px 44px 18px 20px;margin:0 0 28px;
+}
+.onboard-title{
+  font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--amber);margin:0 0 8px;
+}
+.onboard-steps{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;}
+.onboard-steps li{font-size:13px;line-height:1.5;color:var(--ink-soft);}
+.onboard-steps li b{color:var(--ink-navy);}
+.onboard-close{
+  position:absolute;top:14px;right:14px;
+  width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:var(--white);
+  color:var(--ink-soft);font-size:12px;cursor:pointer;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+}
+.onboard-close:hover{border-color:var(--ink-navy);color:var(--ink-navy);}
+
 /* ============ PREMIUM CARD (amplop + segel lilin, diadaptasi dari Uiverse.io by SmookyDev) ============ */
 .premium-wrap{width:100%;display:flex;flex-direction:column;align-items:center;margin:4px 0 32px;}
 .premium-card{
@@ -174,10 +237,53 @@ body.no-ruled{background-image:none;}
   margin:12px 0 0;
 }
 
-/* ============ MODULE GRID — kartu 3D tilt-on-hover (diadaptasi dari Uiverse.io by imtausef) ============ */
+/* ============ FILTER — gaya Bauhaus (diadaptasi dari Uiverse.io by ToraScriptCopy) ============ */
 .deck-section{padding:14px 0 8px;}
+.bauhaus-filter{
+  position:relative;
+  display:flex;flex-direction:column;gap:14px;
+  border-left:6px solid var(--ink-navy);
+  padding-left:20px;
+  margin-bottom:28px;
+}
+.bauhaus-filter .bh-header{display:flex;align-items:baseline;gap:10px;}
+.bauhaus-filter .bh-num{
+  font-family:var(--font-mono);font-weight:900;font-size:15px;color:var(--ink-navy);
+  text-decoration:underline;text-underline-offset:4px;
+}
+.bauhaus-filter .bh-title{
+  font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.15em;
+  font-weight:700;color:var(--ink-soft);
+}
+.bh-radio-options{display:flex;flex-direction:row;flex-wrap:wrap;gap:22px;}
+.bh-radio-item{display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform .2s ease;}
+.bh-radio-item:hover{transform:translateX(4px);}
+.bh-radio-item input{position:absolute;opacity:0;width:0;height:0;}
+.bh-selector-box{
+  width:26px;height:26px;flex:none;border:2.5px solid var(--ink-navy);
+  display:flex;align-items:center;justify-content:center;background:transparent;
+  transition:all .3s cubic-bezier(.19,1,.22,1);
+}
+.bh-radio-item input:checked + .bh-selector-box{background:var(--ink-navy);}
+.bh-shape{opacity:0;transition:all .3s ease;}
+.bh-radio-item input:checked + .bh-selector-box .bh-shape{opacity:1;}
+.bh-shape-all{width:11px;height:11px;background:var(--amber);transform:rotate(45deg);}
+.bh-shape-circle{width:12px;height:12px;border-radius:50%;background:var(--amber);}
+.bh-shape-square{width:12px;height:12px;background:var(--amber);}
+.bh-shape-triangle{
+  width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+  border-bottom:10px solid var(--amber);background:transparent!important;
+}
+.bh-label-text{
+  font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--ink-soft);transition:color .3s ease;
+}
+.bh-radio-item input:checked ~ .bh-label-text{color:var(--amber);}
+
+/* ============ MODULE GRID — kartu 3D tilt-on-hover (diadaptasi dari Uiverse.io by imtausef) ============ */
 .tilt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
 .tilt-parent{perspective:1000px;}
+.tilt-parent.filtered-out{display:none;}
 .tilt-card{
   position:relative;
   border:2px solid var(--ink-navy);
@@ -190,7 +296,8 @@ body.no-ruled{background-image:none;}
   transition:all .5s ease-in-out;
   transform-style:preserve-3d;
   cursor:pointer;
-  padding-top:34px;
+  padding-top:76px;
+  overflow:hidden;
 }
 .tilt-card:hover{
   background-position:-80px 80px, -80px 80px, 0 0;
@@ -223,7 +330,7 @@ body.no-ruled{background-image:none;}
 }
 .tilt-card:hover .tilt-cta{background:var(--amber);}
 .tilt-badge{
-  position:absolute;top:-18px;right:18px;
+  position:absolute;top:12px;right:12px;
   height:52px;width:52px;
   background:var(--ink-navy);border:2px solid var(--amber);border-radius:10px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -232,6 +339,7 @@ body.no-ruled{background-image:none;}
 }
 .tilt-badge-lbl{font-family:var(--font-mono);font-size:7px;letter-spacing:.08em;color:var(--amber);font-weight:700;}
 .tilt-badge-num{font-family:var(--font-mono);font-size:18px;font-weight:900;color:var(--amber);}
+
 .deck-caption{
   font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);text-align:center;
   max-width:340px;min-height:34px;line-height:1.5;margin:20px auto 0;
@@ -314,6 +422,13 @@ body.no-ruled{background-image:none;}
   font-size:26px;color:var(--ink);
 }
 .matrix-cell.slot{border-style:dashed;color:var(--line);background:var(--white);}
+
+.wartegg-stimulus-box{
+  width:150px;height:150px;margin:0 auto;
+  border:2.5px solid var(--ink-navy);background:var(--paper-2);
+  display:flex;align-items:center;justify-content:center;
+}
+.wartegg-svg{width:100%;height:100%;color:var(--ink-navy);}
 
 .options{display:grid;gap:10px;}
 .option{
@@ -463,6 +578,9 @@ footer.foot{
 
   .tilt-grid{grid-template-columns:1fr;gap:16px;}
   .tilt-title{font-size:17px;}
+  .bauhaus-filter{border-left-width:4px;padding-left:12px;margin-bottom:20px;}
+  .bh-radio-options{gap:14px 18px;}
+  .bh-label-text{font-size:10.5px;}
   .deck-caption{font-size:11.5px;}
   .result-banner{padding:14px 16px;}
   .result-title{font-size:15px;}
@@ -554,13 +672,60 @@ footer.foot{
   <section class="view view--active" id="view-landing">
     <div class="hero">
       <span class="eyebrow">Latihan sebelum hari-H</span>
-      <h1>Biar <em>gugup</em>-nya habis di sini,<br>bukan di ruang ujian.</h1>
+      <div class="hero-title-wrap">
+        <h1>Biar <em id="gugupWord">gugup</em>-nya habis di sini,<br>bukan di ruang ujian.</h1>
+        <div class="hero-deco" aria-hidden="true">
+          <div class="hero-deco-box"></div>
+          <div class="hero-deco-cursor">
+            <svg viewBox="0 0 20 26" class="hero-deco-arrow"><path d="M1,1 L1,20 L6,16 L9,23 L12,21.5 L9,15 L16,15 Z"/></svg>
+            <span class="hero-deco-tag">Rafi Sirojudin</span>
+          </div>
+        </div>
+      </div>
       <p>Simulasikan tempo tes koran, tekanan waktu tes pilihan ganda, dan pola pikiran tes kepribadian — lalu lihat hasilnya dalam grafik yang biasa dipakai HR.</p>
     </div>
 
+    <div class="onboard-card" id="onboardCard">
+      <button class="onboard-close" onclick="dismissOnboard()" aria-label="Tutup">✕</button>
+      <p class="onboard-title">Cara pakai singkat</p>
+      <ol class="onboard-steps">
+        <li>Pilih <b>Target Perusahaan</b> di kanan atas (opsional) — hasil DISC nanti ikut disesuaikan.</li>
+        <li>Klik salah satu kartu modul di bawah untuk mulai latihan.</li>
+        <li>Sudah selesai satu atau beberapa modul? Buka <b>Lihat Hasil</b> untuk rekap &amp; grafiknya.</li>
+      </ol>
+    </div>
+
     <div class="deck-section">
+      <div class="bauhaus-filter">
+        <div class="bh-header">
+          <span class="bh-num">01</span>
+          <span class="bh-title">Filter Modul</span>
+        </div>
+        <div class="bh-radio-options">
+          <label class="bh-radio-item">
+            <input type="radio" name="module-filter" value="all" checked onchange="filterModules('all')">
+            <span class="bh-selector-box"><span class="bh-shape bh-shape-all"></span></span>
+            <span class="bh-label-text">Semua</span>
+          </label>
+          <label class="bh-radio-item">
+            <input type="radio" name="module-filter" value="kognitif" onchange="filterModules('kognitif')">
+            <span class="bh-selector-box"><span class="bh-shape bh-shape-circle"></span></span>
+            <span class="bh-label-text">Kemampuan Kognitif</span>
+          </label>
+          <label class="bh-radio-item">
+            <input type="radio" name="module-filter" value="kepribadian" onchange="filterModules('kepribadian')">
+            <span class="bh-selector-box"><span class="bh-shape bh-shape-square"></span></span>
+            <span class="bh-label-text">Kepribadian</span>
+          </label>
+          <label class="bh-radio-item">
+            <input type="radio" name="module-filter" value="resmi" onchange="filterModules('resmi')">
+            <span class="bh-selector-box"><span class="bh-shape bh-shape-triangle"></span></span>
+            <span class="bh-label-text">Simulasi Resmi</span>
+          </label>
+        </div>
+      </div>
       <div class="tilt-grid">
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="kognitif">
           <div class="tilt-card" onclick="startMCQ('logika')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">01</span></div>
             <div class="tilt-content">
@@ -571,7 +736,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="kognitif">
           <div class="tilt-card" onclick="startMCQ('verbal')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">02</span></div>
             <div class="tilt-content">
@@ -582,7 +747,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="kognitif">
           <div class="tilt-card" onclick="startMCQ('spasial')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">03</span></div>
             <div class="tilt-content">
@@ -593,7 +758,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="resmi">
           <div class="tilt-card" onclick="startKraepelin()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">04</span></div>
             <div class="tilt-content">
@@ -604,7 +769,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="kepribadian">
           <div class="tilt-card" onclick="startDISC()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">05</span></div>
             <div class="tilt-content">
@@ -615,7 +780,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="kepribadian">
           <div class="tilt-card" onclick="startPAPI()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">06</span></div>
             <div class="tilt-content">
@@ -626,7 +791,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="resmi">
           <div class="tilt-card" onclick="startSKD()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">07</span></div>
             <div class="tilt-content">
@@ -637,7 +802,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="kepribadian">
           <div class="tilt-card" onclick="startEPPS()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">08</span></div>
             <div class="tilt-content">
@@ -648,13 +813,24 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent">
+        <div class="tilt-parent" data-cat="kognitif">
           <div class="tilt-card" onclick="startMCQ('cfit')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">09</span></div>
             <div class="tilt-content">
               <span class="tilt-icon">🧠</span>
               <span class="tilt-title">CFIT</span>
-              <p class="tilt-desc">Tes kecerdasan non-verbal — pola, klasifikasi, matriks & kondisi bentuk. Bebas bias budaya & bahasa, masih dipakai psikolog HRD.</p>
+              <p class="tilt-desc">Tes kecerdasan non-verbal — pola, klasifikasi, matriks &amp; kondisi bentuk. Bebas bias budaya &amp; bahasa, masih dipakai psikolog HRD.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
+        </div>
+        <div class="tilt-parent" data-cat="resmi">
+          <div class="tilt-card" onclick="startWartegg()">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">10</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🖼️</span>
+              <span class="tilt-title">Wartegg</span>
+              <p class="tilt-desc">Familiarisasi 8 kotak stimulus gambar proyektif — pilih tema kelanjutan yang paling menarik untukmu.</p>
               <span class="tilt-cta">Mulai Latihan</span>
             </div>
           </div>
@@ -813,6 +989,28 @@ footer.foot{
     </div>
   </section>
 
+  <!-- ===================== VIEW: WARTEGG ===================== -->
+  <section class="view" id="view-wartegg">
+    <div class="test-header">
+      <div class="test-title">
+        <h2>Wartegg (Familiarisasi)</h2>
+      </div>
+      <span class="pill" id="warteggCounter">Kotak 1/8</span>
+    </div>
+    <div class="mcq-panel">
+      <p style="font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);margin:0 0 16px;">Pilih tema kelanjutan yang paling menarik untukmu dari stimulus berikut:</p>
+      <div class="wartegg-stimulus-box">
+        <svg id="warteggSvg" viewBox="0 0 100 100" class="wartegg-svg"></svg>
+      </div>
+      <p id="warteggQuestionText" style="font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);text-align:center;margin:10px 0 20px;"></p>
+      <div class="options" id="warteggOptions"></div>
+    </div>
+    <div class="mcq-footer">
+      <button class="btn btn-outline" onclick="warteggPrev()">← Sebelumnya</button>
+      <button class="btn btn-primary" id="warteggNextBtn" onclick="warteggNext()">Selanjutnya →</button>
+    </div>
+  </section>
+
   <!-- ===================== VIEW: RESULTS ===================== -->
   <section class="view" id="view-results">
     <div class="test-header">
@@ -858,6 +1056,12 @@ footer.foot{
       <div id="eppsGroups"></div>
     </div>
 
+    <div class="section-block" id="blockWartegg" style="display:none;">
+      <h3>Familiarisasi Wartegg</h3>
+      <p style="font-size:12px;color:var(--red);margin:0 0 14px;font-weight:600;">⚠ Ini bukan hasil tes Wartegg sesungguhnya. Tes asli menilai gambar tangan spontan (kualitas goresan, urutan pengerjaan, tema) oleh psikolog terlatih — sesuatu yang tidak bisa direplikasi lewat pilihan ganda. Ringkasan di bawah hanya menunjukkan tema mana yang paling sering kamu pilih, sekadar pengenalan format 8 kotaknya.</p>
+      <div id="warteggBars"></div>
+    </div>
+
     <div class="actions-row">
       <button class="btn btn-primary" onclick="goLanding()">Coba Modul Lain</button>
     </div>
@@ -873,12 +1077,14 @@ footer.foot{
 const state = {
   ticketNo: 'PTP-' + Math.floor(100000 + Math.random()*899999),
   target: 'BUMN',
+  onboardSeen: false,
   mcq: {}, // per category: {answers:[], ragu:[], index, startedAt, finished, timeUsed}
   krae: { logs: [], finished:false },
   disc: { answers: [], finished:false },
   papi: { answers: [], finished:false },
   tkp: { answers: [], finished:false },
-  epps: { answers: [], finished:false }
+  epps: { answers: [], finished:false },
+  wartegg: { answers: [], finished:false }
 };
 
 document.getElementById('targetSelect').addEventListener('change', e=>{ state.target = e.target.value; queueSave(); });
@@ -903,7 +1109,7 @@ async function saveProgress(){
   if(typeof window.storage === 'undefined') return;
   if(Date.now() < storageDownUntil) return; // sedang cooldown, jangan spam layanan yang lagi bermasalah
   try{
-    const payload = { ticketNo: state.ticketNo, target: state.target, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp, epps: state.epps };
+    const payload = { ticketNo: state.ticketNo, target: state.target, onboardSeen: state.onboardSeen, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp, epps: state.epps, wartegg: state.wartegg };
     const result = await window.storage.set(STORAGE_KEY, JSON.stringify(payload), false);
     if(!result) throw new Error('Storage set mengembalikan hasil kosong');
     storageWorking = true;
@@ -922,12 +1128,14 @@ async function loadProgress(){
       const parsed = JSON.parse(res.value);
       state.ticketNo = parsed.ticketNo || state.ticketNo;
       state.target = parsed.target || state.target;
+      state.onboardSeen = parsed.onboardSeen || false;
       state.mcq = parsed.mcq || {};
       state.krae = parsed.krae || {logs:[], finished:false};
       state.disc = parsed.disc || {answers:[], finished:false};
       state.papi = parsed.papi || {answers:[], finished:false};
       state.tkp = parsed.tkp || {answers:[], finished:false};
       state.epps = parsed.epps || {answers:[], finished:false};
+      state.wartegg = parsed.wartegg || {answers:[], finished:false};
       return true;
     }
   }catch(e){ /* belum ada progres tersimpan — normal untuk pengguna baru */ }
@@ -939,10 +1147,28 @@ async function loadProgress(){
   document.getElementById('ticketNoDisplay').textContent = state.ticketNo;
   document.getElementById('targetSelect').value = state.target;
   if(loaded){
-    const anyDone = Object.values(state.mcq).some(s=>s.finished) || state.krae.finished || state.disc.finished || state.papi.finished || state.tkp.finished || state.epps.finished;
+    const anyDone = Object.values(state.mcq).some(s=>s.finished) || state.krae.finished || state.disc.finished || state.papi.finished || state.tkp.finished || state.epps.finished || state.wartegg.finished;
     if(anyDone) setStatus('Progres sebelumnya berhasil dimuat dari perangkat ini');
   }
+  if(state.onboardSeen){
+    const card = document.getElementById('onboardCard');
+    if(card) card.style.display = 'none';
+  }
 })();
+
+function dismissOnboard(){
+  const card = document.getElementById('onboardCard');
+  if(card) card.style.display = 'none';
+  state.onboardSeen = true;
+  saveProgress();
+}
+
+function filterModules(cat){
+  document.querySelectorAll('.tilt-parent').forEach(card=>{
+    const match = cat==='all' || card.dataset.cat===cat;
+    card.classList.toggle('filtered-out', !match);
+  });
+}
 
 function switchView(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('view--active'));
@@ -963,6 +1189,40 @@ function attachTabWarning(bannerId){
 attachTabWarning('mcqWarnBanner');
 attachTabWarning('kraeWarnBanner');
 attachTabWarning('tkpWarnBanner');
+
+/* ======================================================================
+   HERO CURSOR DECO — posisi diukur nyata (bukan tebakan piksel), supaya
+   pas persis di berbagai lebar layar/device dan tahan beda rendering font.
+   ====================================================================== */
+function positionHeroDeco(){
+  const wrap = document.querySelector('.hero-title-wrap');
+  const word = document.getElementById('gugupWord');
+  const h1 = wrap ? wrap.querySelector('h1') : null;
+  if(!wrap || !word || !h1) return;
+  const wrapRect = wrap.getBoundingClientRect();
+  const wordRect = word.getBoundingClientRect();
+  const h1Rect = h1.getBoundingClientRect();
+  const pad = 6;
+  const x = wordRect.left - wrapRect.left - pad;
+  const y = wordRect.top - wrapRect.top - pad;
+  const w = wordRect.width + pad*2;
+  const h = wordRect.height + pad*2;
+  wrap.style.setProperty('--gugup-x', x+'px');
+  wrap.style.setProperty('--gugup-y', y+'px');
+  wrap.style.setProperty('--gugup-w', w+'px');
+  wrap.style.setProperty('--gugup-h', h+'px');
+  wrap.style.setProperty('--line2-y', (y + h1Rect.height/2)+'px');
+}
+positionHeroDeco();
+window.addEventListener('load', positionHeroDeco);
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(positionHeroDeco).catch(()=>{});
+}
+let heroDecoResizeT = null;
+window.addEventListener('resize', ()=>{
+  clearTimeout(heroDecoResizeT);
+  heroDecoResizeT = setTimeout(positionHeroDeco, 150);
+});
 
 /* ======================================================================
    INTRO SCREEN (kartu peserta sebagai layar sambutan sebelum beranda)
@@ -992,9 +1252,10 @@ const isHoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').m
 })();
 
 /* ======================================================================
-   MODULE GRID (kartu 3D tilt-hover di beranda)
-   Tiap kartu sudah membawa deskripsi & tombol sendiri, jadi tidak perlu
-   caption/state tambahan — klik langsung memanggil fungsi start terkait.
+   MODULE LIST (gaya Bauhaus di beranda, dengan filter kategori)
+   Tiap baris sudah membawa deskripsi & indikator kategori sendiri, jadi
+   tidak perlu caption/state tambahan — klik langsung memanggil fungsi
+   start terkait.
    ====================================================================== */
 
 /* ======================================================================
@@ -1472,6 +1733,7 @@ function showResults(){
   renderPAPIResults();
   renderSKDResults();
   renderEPPSResults();
+  renderWarteggResults();
   switchView('view-results');
 }
 
@@ -2081,6 +2343,160 @@ function renderEPPSResults(){
       grpDiv.appendChild(desc);
     });
     wrap.appendChild(grpDiv);
+  });
+}
+
+/* ======================================================================
+   WARTEGG (FAMILIARISASI) — bukan tes resmi, lihat disclaimer di hasil.
+   8 kotak stimulus asli (garis/titik) diadaptasi jadi SVG sederhana.
+   Tiap kotak: 4 opsi tema kelanjutan, satu opsi per dimensi Wartegg
+   (Emosi, Imajinasi, Intelektual, Aktivitas) — dipilih user, ditally
+   di akhir jadi profil kecenderungan 4 dimensi (bukan skor psikometrik).
+   ====================================================================== */
+const WARTEGG_DIM_LABEL = {
+  emosi:'Emosi', imajinasi:'Imajinasi', intelektual:'Intelektual', aktivitas:'Aktivitas'
+};
+const WARTEGG_DIM_DESC = {
+  emosi:'Kepekaan perasaan dan cara merespons hubungan/relasi dengan orang lain.',
+  imajinasi:'Kreativitas, orisinalitas ide, dan ketertarikan pada hal abstrak/simbolis.',
+  intelektual:'Cara berpikir logis, analitis, dan berorientasi pada realita/struktur.',
+  aktivitas:'Tingkat energi, dorongan bertindak, dan dinamisme dalam mengambil keputusan.'
+};
+const WARTEGG_BANK = [
+  { svg:'<circle cx="50" cy="50" r="5" fill="currentColor"/>',
+    q:'Kotak 1 — titik kecil di tengah',
+    opts:[
+      {t:'☀️ Matahari dengan sinar unik', dim:'imajinasi'},
+      {t:'🙂 Wajah tersenyum', dim:'emosi'},
+      {t:'🌍 Bola dunia / peta', dim:'intelektual'},
+      {t:'⚪ Kelereng yang menggelinding', dim:'aktivitas'}
+    ]},
+  { svg:'<path d="M15,25 Q25,15 35,25 Q45,35 55,25" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>',
+    q:'Kotak 2 — garis lengkung kecil di kiri atas',
+    opts:[
+      {t:'🌊 Ombak / gelombang air', dim:'emosi'},
+      {t:'🐍 Ular atau makhluk fantastis', dim:'imajinasi'},
+      {t:'📈 Grafik tren naik-turun', dim:'intelektual'},
+      {t:'🎗️ Pita lomba yang berkibar', dim:'aktivitas'}
+    ]},
+  { svg:'<line x1="50" y1="80" x2="50" y2="65" stroke="currentColor" stroke-width="3"/><line x1="62" y1="80" x2="62" y2="52" stroke="currentColor" stroke-width="3"/><line x1="74" y1="80" x2="74" y2="38" stroke="currentColor" stroke-width="3"/>',
+    q:'Kotak 3 — tiga garis tegak yang meninggi',
+    opts:[
+      {t:'🌳 Pohon-pohon dengan tinggi berbeda', dim:'emosi'},
+      {t:'🎆 Kembang api meletus ke atas', dim:'imajinasi'},
+      {t:'📊 Grafik statistik pertumbuhan', dim:'intelektual'},
+      {t:'🪜 Anak tangga menuju puncak', dim:'aktivitas'}
+    ]},
+  { svg:'<rect x="72" y="12" width="14" height="14" fill="currentColor"/>',
+    q:'Kotak 4 — kotak kecil terisi di sudut kanan atas',
+    opts:[
+      {t:'🎁 Kado / bingkai foto kenangan', dim:'emosi'},
+      {t:'🪟 Jendela menuju dunia lain', dim:'imajinasi'},
+      {t:'♟️ Papan catur / sirkuit', dim:'intelektual'},
+      {t:'🏢 Bangunan kokoh yang dibangun', dim:'aktivitas'}
+    ]},
+  { svg:'<line x1="15" y1="85" x2="15" y2="55" stroke="currentColor" stroke-width="3"/><line x1="15" y1="85" x2="42" y2="68" stroke="currentColor" stroke-width="3"/>',
+    q:'Kotak 5 — dua garis menyudut di kiri bawah',
+    opts:[
+      {t:'🦋 Kupu-kupu terbang', dim:'emosi'},
+      {t:'⚡ Kilat / petir menyambar', dim:'imajinasi'},
+      {t:'⚙️ Bagian dari mesin presisi', dim:'intelektual'},
+      {t:'🚀 Roket meluncur ke atas', dim:'aktivitas'}
+    ]},
+  { svg:'<line x1="18" y1="55" x2="45" y2="55" stroke="currentColor" stroke-width="3"/><line x1="65" y1="30" x2="65" y2="62" stroke="currentColor" stroke-width="3"/>',
+    q:'Kotak 6 — garis datar dan garis tegak yang terpisah',
+    opts:[
+      {t:'✝️ Simbol spiritual', dim:'emosi'},
+      {t:'🎻 Alat musik gesek', dim:'imajinasi'},
+      {t:'🌉 Jembatan menghubungkan dua sisi', dim:'intelektual'},
+      {t:'🚧 Palang pintu / gerbang', dim:'aktivitas'}
+    ]},
+  { svg:'<circle cx="18" cy="60" r="3" fill="currentColor"/><circle cx="33" cy="50" r="3" fill="currentColor"/><circle cx="50" cy="45" r="3" fill="currentColor"/><circle cx="67" cy="50" r="3" fill="currentColor"/><circle cx="82" cy="60" r="3" fill="currentColor"/>',
+    q:'Kotak 7 — deret titik melengkung',
+    opts:[
+      {t:'📿 Kalung manik-manik', dim:'emosi'},
+      {t:'🌼 Rangkaian bunga liar', dim:'imajinasi'},
+      {t:'📍 Jejak data / titik koordinat', dim:'intelektual'},
+      {t:'👣 Jejak kaki berjalan', dim:'aktivitas'}
+    ]},
+  { svg:'<path d="M15,55 Q50,90 85,55" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>',
+    q:'Kotak 8 — lengkung besar di bagian bawah',
+    opts:[
+      {t:'🤗 Pelukan / lengkungan pelindung', dim:'emosi'},
+      {t:'🌈 Pelangi setelah hujan', dim:'imajinasi'},
+      {t:'⚙️ Roda gigi mesin', dim:'intelektual'},
+      {t:'⛰️ Bukit yang didaki', dim:'aktivitas'}
+    ]}
+];
+
+let warteggIndex = 0;
+
+function startWartegg(){
+  warteggIndex = 0;
+  const n = WARTEGG_BANK.length;
+  state.wartegg.order = shuffleArray([...Array(n).keys()]);
+  state.wartegg.optionOrder = WARTEGG_BANK.map(item => shuffleArray([...Array(item.opts.length).keys()]));
+  state.wartegg.answers = new Array(n).fill(null);
+  renderWartegg();
+  switchView('view-wartegg');
+}
+
+function renderWartegg(){
+  const origIdx = state.wartegg.order[warteggIndex];
+  const item = WARTEGG_BANK[origIdx];
+  const optOrder = state.wartegg.optionOrder[origIdx];
+  document.getElementById('warteggCounter').textContent = `Kotak ${warteggIndex+1}/${WARTEGG_BANK.length}`;
+  document.getElementById('warteggSvg').innerHTML = item.svg;
+  document.getElementById('warteggQuestionText').textContent = item.q;
+  const optsEl = document.getElementById('warteggOptions');
+  optsEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const chosen = state.wartegg.answers[origIdx];
+  optOrder.forEach((origOptIdx, displayIdx)=>{
+    const div = document.createElement('div');
+    div.className = 'option' + (chosen===origOptIdx ? ' selected':'');
+    div.innerHTML = `<span class="opt-letter">${letters[displayIdx]}</span><span>${item.opts[origOptIdx].t}</span>`;
+    div.onclick = ()=>{ state.wartegg.answers[origIdx]=origOptIdx; renderWartegg(); queueSave(); };
+    optsEl.appendChild(div);
+  });
+  document.getElementById('warteggNextBtn').textContent = warteggIndex===WARTEGG_BANK.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
+}
+function warteggPrev(){ if(warteggIndex>0){ warteggIndex--; renderWartegg(); } }
+function warteggNext(){
+  const origIdx = state.wartegg.order[warteggIndex];
+  if(state.wartegg.answers[origIdx]===null){ alert('Pilih salah satu tema dulu ya.'); return; }
+  if(warteggIndex < WARTEGG_BANK.length-1){ warteggIndex++; renderWartegg(); }
+  else { finishWartegg(); }
+}
+function finishWartegg(){
+  state.wartegg.finished = true;
+  setStatus('Familiarisasi Wartegg selesai');
+  saveProgress();
+  showResults();
+}
+
+function renderWarteggResults(){
+  const block = document.getElementById('blockWartegg');
+  if(!state.wartegg.finished){ block.style.display='none'; return; }
+  block.style.display = 'block';
+  const tally = {emosi:0, imajinasi:0, intelektual:0, aktivitas:0};
+  state.wartegg.answers.forEach((ans,i)=>{
+    if(ans===null) return;
+    const dim = WARTEGG_BANK[i].opts[ans].dim;
+    tally[dim]++;
+  });
+  const wrap = document.getElementById('warteggBars');
+  wrap.innerHTML = '';
+  Object.keys(WARTEGG_DIM_LABEL).forEach(dim=>{
+    const score = tally[dim];
+    const row = document.createElement('div');
+    row.className = 'disc-bar-row';
+    row.innerHTML = `<span class="letter" style="width:auto;font-size:11px;">${WARTEGG_DIM_LABEL[dim]}</span><div class="disc-bar-track"><div class="disc-bar-fill" style="width:${score/8*100}%;"></div></div><span class="val">${score}/8</span>`;
+    wrap.appendChild(row);
+    const desc = document.createElement('div');
+    desc.style.cssText = 'font-size:11.5px;color:var(--ink-soft);margin:2px 0 10px;';
+    desc.textContent = WARTEGG_DIM_DESC[dim];
+    wrap.appendChild(desc);
   });
 }
 </script>
