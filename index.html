@@ -150,25 +150,27 @@ body.no-ruled{background-image:none;}
   padding:4px 11px;border-radius:0 6px 6px 6px;white-space:nowrap;
   transform:translate(-2px,3px);box-shadow:0 3px 8px rgba(27,42,74,.3);
 }
-/* kotak seleksi: mulai lebar 0 di awal kata, tumbuh ke kanan mengikuti drag, tetap penuh sesaat, lalu hilang */
+/* kotak seleksi: tetap tersembunyi selama kursor "mengukur", baru tumbuh saat drag benar-benar mulai */
 @keyframes hero-box-select{
-  0%,13%{opacity:0;left:var(--gugup-x);width:0;}
-  17%{opacity:1;left:var(--gugup-x);width:0;}
-  50%{opacity:1;left:var(--gugup-x);width:var(--gugup-w);}
-  80%{opacity:1;left:var(--gugup-x);width:var(--gugup-w);}
-  92%,100%{opacity:0;left:var(--gugup-x);width:var(--gugup-w);}
+  0%,19%{opacity:0;left:var(--gugup-x);width:0;}
+  24%{opacity:1;left:var(--gugup-x);width:0;}
+  55%{opacity:1;left:var(--gugup-x);width:var(--gugup-w);}
+  82%{opacity:1;left:var(--gugup-x);width:var(--gugup-w);}
+  93%,100%{opacity:0;left:var(--gugup-x);width:var(--gugup-w);}
 }
-/* kursor: terbang masuk → klik-tahan di awal kata → seret ke kanan → lepas klik di akhir kata → jeda → menghilang */
+/* kursor: terbang masuk → turun ke sudut bawah kata (mengukur, diam sebentar) → naik ke sudut atas → klik-tahan → seret ke kanan → lepas klik → jeda → menghilang */
 @keyframes hero-cursor-select{
-  0%{opacity:0;transform:translate(calc(var(--gugup-x) + 220px),calc(var(--gugup-y) - 4px));}
-  13%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px));}
-  17%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px)) scale(.88);}
-  21%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px)) scale(1);}
-  50%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
-  54%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(.88);}
-  58%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
-  80%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
-  92%,100%{opacity:0;transform:translate(calc(var(--gugup-x) + var(--gugup-w) + 30px),calc(var(--gugup-y) + 24px)) scale(1);}
+  0%{opacity:0;transform:translate(calc(var(--gugup-x) + 220px),calc(var(--gugup-y) + var(--gugup-h) - 6px));}
+  8%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) + var(--gugup-h) - 6px));}
+  16%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) + var(--gugup-h) - 6px));}
+  20%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px));}
+  24%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px)) scale(.88);}
+  28%{opacity:1;transform:translate(var(--gugup-x),calc(var(--gugup-y) - 4px)) scale(1);}
+  55%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
+  59%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(.88);}
+  63%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
+  82%{opacity:1;transform:translate(calc(var(--gugup-x) + var(--gugup-w)),calc(var(--gugup-y) - 4px)) scale(1);}
+  93%,100%{opacity:0;transform:translate(calc(var(--gugup-x) + var(--gugup-w) + 30px),calc(var(--gugup-y) + 24px)) scale(1);}
 }
 
 /* ============ ONBOARDING (kartu cara pakai singkat, muncul sekali) ============ */
@@ -840,6 +842,17 @@ footer.foot{
             </div>
           </div>
         </div>
+        <div class="tilt-parent" data-cat="kepribadian">
+          <div class="tilt-card" onclick="startMBTI()">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">11</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🔤</span>
+              <span class="tilt-title">MBTI</span>
+              <p class="tilt-desc">Pilihan paksa 4 pasang kutub kepribadian (E/I, S/N, T/F, J/P) — tipe kepribadian paling dikenal luas di dunia kerja.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -975,6 +988,25 @@ footer.foot{
     </div>
   </section>
 
+  <!-- ===================== VIEW: MBTI ===================== -->
+  <section class="view" id="view-mbti">
+    <div class="test-header">
+      <div class="test-title">
+        <h2>MBTI</h2>
+      </div>
+      <span class="pill" id="mbtiCounter">1/16</span>
+    </div>
+    <div class="disc-panel">
+      <p class="disc-progress-lbl">Pilih pernyataan yang <b>paling</b> menggambarkan dirimu di lingkungan kerja:</p>
+      <div id="mbtiChoiceA" class="disc-choice"></div>
+      <div id="mbtiChoiceB" class="disc-choice"></div>
+      <div class="mcq-footer" style="margin-top:18px;">
+        <button class="btn btn-outline" onclick="mbtiPrev()">← Sebelumnya</button>
+        <button class="btn btn-primary" id="mbtiNextBtn" onclick="mbtiNext()">Selanjutnya →</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== VIEW: TKP ===================== -->
   <section class="view" id="view-tkp">
     <div class="warn-banner" id="tkpWarnBanner">⚠ Terdeteksi berpindah tab selama simulasi TKP.</div>
@@ -1067,6 +1099,13 @@ footer.foot{
       <div id="warteggBars"></div>
     </div>
 
+    <div class="section-block" id="blockMBTI" style="display:none;">
+      <h3>Profil MBTI</h3>
+      <p style="font-size:12px;color:var(--ink-soft);margin:0 0 14px;">Simulasi ringkas 16 pasang pernyataan (versi resmi berupa kuesioner terpisah ±93 butir). Catatan: validitas MBTI untuk keputusan seleksi kerja diperdebatkan di kalangan psikolog — banyak perusahaan memakainya untuk pemetaan gaya kerja/tim, bukan sebagai alat seleksi utama.</p>
+      <div id="mbtiTypeBox" style="text-align:center;margin-bottom:18px;padding:18px;background:var(--paper-2);border-radius:var(--radius-sm);"></div>
+      <div id="mbtiAxes"></div>
+    </div>
+
     <div class="actions-row">
       <button class="btn btn-primary" onclick="goLanding()">Coba Modul Lain</button>
     </div>
@@ -1089,7 +1128,8 @@ const state = {
   papi: { answers: [], finished:false },
   tkp: { answers: [], finished:false },
   epps: { answers: [], finished:false },
-  wartegg: { answers: [], finished:false }
+  wartegg: { answers: [], finished:false },
+  mbti: { answers: [], finished:false }
 };
 
 document.getElementById('targetSelect').addEventListener('change', e=>{ state.target = e.target.value; queueSave(); });
@@ -1110,12 +1150,52 @@ function queueSave(){
   saveTimeout = setTimeout(saveProgress, 600);
 }
 
+/* Cek localStorage benar-benar bisa dipakai (bukan cuma "ada") — di beberapa
+   lingkungan sandbox, localStorage bisa melempar error saat DIAKSES, bukan
+   cuma saat dipakai, jadi semuanya dibungkus try/catch. */
+function hasWorkingLocalStorage(){
+  try{
+    const k = '__pp_probe__';
+    localStorage.setItem(k, '1');
+    localStorage.removeItem(k);
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+function applyLoadedState(parsed){
+  state.ticketNo = parsed.ticketNo || state.ticketNo;
+  state.target = parsed.target || state.target;
+  state.onboardSeen = parsed.onboardSeen || false;
+  state.mcq = parsed.mcq || {};
+  state.krae = parsed.krae || {logs:[], finished:false};
+  state.disc = parsed.disc || {answers:[], finished:false};
+  state.papi = parsed.papi || {answers:[], finished:false};
+  state.tkp = parsed.tkp || {answers:[], finished:false};
+  state.epps = parsed.epps || {answers:[], finished:false};
+  state.wartegg = parsed.wartegg || {answers:[], finished:false};
+  state.mbti = parsed.mbti || {answers:[], finished:false};
+}
+
 async function saveProgress(){
+  const payload = { ticketNo: state.ticketNo, target: state.target, onboardSeen: state.onboardSeen, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp, epps: state.epps, wartegg: state.wartegg, mbti: state.mbti };
+  const json = JSON.stringify(payload);
+
+  // Prioritas 1: localStorage asli — otomatis aktif & andal begitu situs ini di-deploy di luar Claude
+  if(hasWorkingLocalStorage()){
+    try{
+      localStorage.setItem(STORAGE_KEY, json);
+      storageWorking = true;
+      return;
+    }catch(e){ /* lanjut ke fallback di bawah */ }
+  }
+
+  // Prioritas 2 (fallback): window.storage — dipakai selama masih dites di lingkungan artifact Claude
   if(typeof window.storage === 'undefined') return;
   if(Date.now() < storageDownUntil) return; // sedang cooldown, jangan spam layanan yang lagi bermasalah
   try{
-    const payload = { ticketNo: state.ticketNo, target: state.target, onboardSeen: state.onboardSeen, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp, epps: state.epps, wartegg: state.wartegg };
-    const result = await window.storage.set(STORAGE_KEY, JSON.stringify(payload), false);
+    const result = await window.storage.set(STORAGE_KEY, json, false);
     if(!result) throw new Error('Storage set mengembalikan hasil kosong');
     storageWorking = true;
   }catch(e){
@@ -1126,21 +1206,21 @@ async function saveProgress(){
 }
 
 async function loadProgress(){
+  if(hasWorkingLocalStorage()){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        applyLoadedState(JSON.parse(raw));
+        return true;
+      }
+    }catch(e){ /* lanjut ke fallback di bawah */ }
+  }
+
   if(typeof window.storage === 'undefined') return false;
   try{
     const res = await window.storage.get(STORAGE_KEY, false);
     if(res && res.value){
-      const parsed = JSON.parse(res.value);
-      state.ticketNo = parsed.ticketNo || state.ticketNo;
-      state.target = parsed.target || state.target;
-      state.onboardSeen = parsed.onboardSeen || false;
-      state.mcq = parsed.mcq || {};
-      state.krae = parsed.krae || {logs:[], finished:false};
-      state.disc = parsed.disc || {answers:[], finished:false};
-      state.papi = parsed.papi || {answers:[], finished:false};
-      state.tkp = parsed.tkp || {answers:[], finished:false};
-      state.epps = parsed.epps || {answers:[], finished:false};
-      state.wartegg = parsed.wartegg || {answers:[], finished:false};
+      applyLoadedState(JSON.parse(res.value));
       return true;
     }
   }catch(e){ /* belum ada progres tersimpan — normal untuk pengguna baru */ }
@@ -1152,7 +1232,7 @@ async function loadProgress(){
   document.getElementById('ticketNoDisplay').textContent = state.ticketNo;
   document.getElementById('targetSelect').value = state.target;
   if(loaded){
-    const anyDone = Object.values(state.mcq).some(s=>s.finished) || state.krae.finished || state.disc.finished || state.papi.finished || state.tkp.finished || state.epps.finished || state.wartegg.finished;
+    const anyDone = Object.values(state.mcq).some(s=>s.finished) || state.krae.finished || state.disc.finished || state.papi.finished || state.tkp.finished || state.epps.finished || state.wartegg.finished || state.mbti.finished;
     if(anyDone) setStatus('Progres sebelumnya berhasil dimuat dari perangkat ini');
   }
   if(state.onboardSeen){
@@ -1739,6 +1819,7 @@ function showResults(){
   renderSKDResults();
   renderEPPSResults();
   renderWarteggResults();
+  renderMBTIResults();
   switchView('view-results');
 }
 
@@ -2503,6 +2584,145 @@ function renderWarteggResults(){
     desc.textContent = WARTEGG_DIM_DESC[dim];
     wrap.appendChild(desc);
   });
+}
+
+/* ======================================================================
+   MBTI ENGINE
+   4 dikotomi resmi (E/I, S/N, T/F, J/P), masing-masing 4 pasang pernyataan
+   forced-choice (16 pasang total). Skor mayoritas per dikotomi menentukan
+   huruf pemenang, digabung jadi kode tipe 4-huruf (mis. INTJ).
+   ====================================================================== */
+const MBTI_PAIRS = [
+  [{t:'Saya merasa berenergi setelah menghabiskan waktu bersama banyak orang', k:'E'}, {t:'Saya butuh waktu sendiri untuk mengisi ulang energi setelah bersosialisasi', k:'I'}],
+  [{t:'Saya lebih percaya fakta dan pengalaman konkret dibanding firasat', k:'S'}, {t:'Saya sering mengandalkan intuisi dan gambaran besar dibanding detail', k:'N'}],
+  [{t:'Saya mengambil keputusan berdasarkan logika dan analisis objektif', k:'T'}, {t:'Saya mempertimbangkan perasaan orang lain saat mengambil keputusan', k:'F'}],
+  [{t:'Saya suka merencanakan segala sesuatu jauh-jauh hari', k:'J'}, {t:'Saya lebih suka membiarkan rencana tetap fleksibel dan spontan', k:'P'}],
+  [{t:'Saya lebih suka berpikir sambil berdiskusi dengan orang lain', k:'E'}, {t:'Saya lebih suka memikirkan sesuatu mendalam sebelum membicarakannya', k:'I'}],
+  [{t:'Saya suka instruksi kerja yang jelas dan berurutan langkah demi langkah', k:'S'}, {t:'Saya suka mengeksplorasi berbagai kemungkinan sebelum menentukan cara kerja', k:'N'}],
+  [{t:'Saya lebih mudah memberi kritik langsung meski terdengar keras', k:'T'}, {t:'Saya berusaha menyampaikan kritik dengan cara yang tidak menyakiti perasaan', k:'F'}],
+  [{t:'Saya merasa lebih tenang saat semua tugas terselesaikan sesuai jadwal', k:'J'}, {t:'Saya bisa bekerja baik meski di bawah tekanan tenggat mendadak', k:'P'}],
+  [{t:'Saya cenderung inisiatif memulai obrolan dengan orang baru', k:'E'}, {t:'Saya cenderung menunggu orang lain memulai obrolan lebih dulu', k:'I'}],
+  [{t:'Saya fokus pada detail praktis yang ada di depan mata', k:'S'}, {t:'Saya sering memikirkan makna atau pola tersembunyi di balik sesuatu', k:'N'}],
+  [{t:'Saya menilai sesuatu berdasarkan kebenaran dan konsistensi', k:'T'}, {t:'Saya menilai sesuatu berdasarkan dampaknya terhadap keharmonisan tim', k:'F'}],
+  [{t:'Saya suka menyelesaikan satu tugas sampai tuntas sebelum pindah ke yang lain', k:'J'}, {t:'Saya suka mengerjakan beberapa hal sekaligus sesuai mood saat itu', k:'P'}],
+  [{t:'Saya nyaman jadi pusat perhatian dalam suatu acara', k:'E'}, {t:'Saya lebih nyaman mengamati dari pinggir dibanding jadi sorotan', k:'I'}],
+  [{t:'Saya lebih nyaman dengan cara kerja yang sudah terbukti berhasil', k:'S'}, {t:'Saya senang mencoba pendekatan baru meski belum teruji', k:'N'}],
+  [{t:'Saya cenderung tetap tegas meski keputusan saya tidak populer', k:'T'}, {t:'Saya cenderung mencari solusi yang membuat semua pihak nyaman', k:'F'}],
+  [{t:'Saya lebih suka keputusan sudah final agar bisa segera bertindak', k:'J'}, {t:'Saya suka menjaga pilihan tetap terbuka selagi bisa', k:'P'}]
+];
+
+const MBTI_TYPE_DESC = {
+  ISTJ:'Praktis, teliti, dan bertanggung jawab — andal menjaga standar dan prosedur kerja.',
+  ISFJ:'Setia, teliti, dan suka membantu — menjaga keharmonisan dan stabilitas tim.',
+  INFJ:'Idealis, berwawasan, dan berorientasi nilai — melihat makna di balik pekerjaan.',
+  INTJ:'Strategis, mandiri, dan analitis — suka merancang sistem dan solusi jangka panjang.',
+  ISTP:'Praktis, tenang, dan pemecah masalah — cekatan menangani situasi teknis.',
+  ISFP:'Fleksibel, peka, dan menghargai harmoni — bekerja baik dengan gaya yang tidak kaku.',
+  INFP:'Idealis, reflektif, dan setia pada nilai pribadi — mencari makna dalam pekerjaan.',
+  INTP:'Analitis, ingin tahu, dan suka mengeksplorasi ide — kuat dalam pemecahan masalah konseptual.',
+  ESTP:'Energik, praktis, dan responsif — cepat bertindak menghadapi situasi nyata.',
+  ESFP:'Ramah, spontan, dan antusias — membawa energi positif ke lingkungan kerja.',
+  ENFP:'Kreatif, hangat, dan penuh ide — pandai memotivasi dan menginspirasi orang lain.',
+  ENTP:'Inovatif, cepat berpikir, dan suka mendebat ide — tangkas mencari solusi baru.',
+  ESTJ:'Terorganisir, tegas, dan berorientasi hasil — andal memimpin dan menjaga struktur.',
+  ESFJ:'Kooperatif, peduli, dan terorganisir — menjaga keharmonisan sambil menyelesaikan tugas.',
+  ENFJ:'Karismatik, empatik, dan berorientasi orang — natural dalam memimpin dan memotivasi tim.',
+  ENTJ:'Tegas, strategis, dan berorientasi tujuan — natural dalam memimpin dan mengeksekusi rencana besar.'
+};
+const MBTI_AXES = [
+  {left:'E', right:'I', leftLbl:'Extraversion', rightLbl:'Introversion'},
+  {left:'S', right:'N', leftLbl:'Sensing', rightLbl:'Intuition'},
+  {left:'T', right:'F', leftLbl:'Thinking', rightLbl:'Feeling'},
+  {left:'J', right:'P', leftLbl:'Judging', rightLbl:'Perceiving'}
+];
+
+let mbtiIndex = 0;
+
+function startMBTI(){
+  mbtiIndex = 0;
+  const n = MBTI_PAIRS.length;
+  state.mbti.order = shuffleArray([...Array(n).keys()]);
+  state.mbti.swap = Array.from({length:n}, ()=>Math.random()<0.5);
+  state.mbti.answers = new Array(n).fill(null);
+  renderMBTI();
+  switchView('view-mbti');
+}
+
+function renderMBTI(){
+  const origIdx = state.mbti.order[mbtiIndex];
+  const swap = state.mbti.swap[origIdx];
+  const pair = MBTI_PAIRS[origIdx];
+  const leftOrig = swap ? 1 : 0;
+  const rightOrig = swap ? 0 : 1;
+  document.getElementById('mbtiCounter').textContent = `${mbtiIndex+1}/${MBTI_PAIRS.length}`;
+  const a = document.getElementById('mbtiChoiceA');
+  const b = document.getElementById('mbtiChoiceB');
+  const chosen = state.mbti.answers[origIdx];
+  a.className = 'disc-choice' + (chosen===leftOrig ? ' selected':'');
+  b.className = 'disc-choice' + (chosen===rightOrig ? ' selected':'');
+  a.innerHTML = `<span class="opt-letter">A</span><span>${pair[leftOrig].t}</span>`;
+  b.innerHTML = `<span class="opt-letter">B</span><span>${pair[rightOrig].t}</span>`;
+  a.onclick = ()=>{ state.mbti.answers[origIdx]=leftOrig; renderMBTI(); queueSave(); };
+  b.onclick = ()=>{ state.mbti.answers[origIdx]=rightOrig; renderMBTI(); queueSave(); };
+  document.getElementById('mbtiNextBtn').textContent = mbtiIndex===MBTI_PAIRS.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
+}
+function mbtiPrev(){ if(mbtiIndex>0){ mbtiIndex--; renderMBTI(); } }
+function mbtiNext(){
+  const origIdx = state.mbti.order[mbtiIndex];
+  if(state.mbti.answers[origIdx]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
+  if(mbtiIndex < MBTI_PAIRS.length-1){ mbtiIndex++; renderMBTI(); }
+  else { finishMBTI(); }
+}
+function finishMBTI(){
+  state.mbti.finished = true;
+  setStatus('Simulasi MBTI selesai');
+  saveProgress();
+  showResults();
+}
+
+function mbtiTally(){
+  const tally = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+  state.mbti.answers.forEach((ans,i)=>{
+    if(ans===null) return;
+    const k = MBTI_PAIRS[i][ans].k;
+    tally[k]++;
+  });
+  return tally;
+}
+
+function renderMBTIResults(){
+  const block = document.getElementById('blockMBTI');
+  if(!state.mbti.finished){ block.style.display='none'; return; }
+  block.style.display='block';
+  const tally = mbtiTally();
+
+  let typeCode = '';
+  const axesEl = document.getElementById('mbtiAxes');
+  axesEl.innerHTML = '';
+  MBTI_AXES.forEach(axis=>{
+    const leftScore = tally[axis.left];
+    const rightScore = tally[axis.right];
+    const winner = leftScore >= rightScore ? axis.left : axis.right;
+    typeCode += winner;
+    const total = leftScore + rightScore || 1;
+    const leftPct = Math.round(leftScore/total*100);
+    const row = document.createElement('div');
+    row.style.marginBottom = '16px';
+    row.innerHTML = `
+      <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);margin-bottom:4px;">
+        <span>${axis.left} · ${axis.leftLbl} (${leftScore})</span>
+        <span>${axis.right} · ${axis.rightLbl} (${rightScore})</span>
+      </div>
+      <div class="krae-progress-bar"><div class="krae-progress-fill" style="width:${leftPct}%;"></div></div>
+    `;
+    axesEl.appendChild(row);
+  });
+
+  document.getElementById('mbtiTypeBox').innerHTML = `
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Tipe kamu</div>
+    <div style="font-family:var(--font-display);font-weight:700;font-size:36px;color:var(--ink-navy);margin-bottom:8px;">${typeCode}</div>
+    <div style="font-size:13px;color:var(--ink-soft);line-height:1.5;max-width:420px;margin:0 auto;">${MBTI_TYPE_DESC[typeCode] || ''}</div>
+  `;
 }
 </script>
 </body>
