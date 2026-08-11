@@ -18,9 +18,24 @@ Dibangun sebagai single-file web app (HTML/CSS/JS murni, tanpa build step, tanpa
 
 Semua modul menyimpan progres otomatis selama sesi berjalan, punya sistem anti-cheating sederhana (deteksi pindah tab), dan dashboard hasil dengan grafik (Chart.js) serta pembahasan per soal.
 
-## ⚠️ Penting: soal penyimpanan progres
+## 🚀 Cara deploy
 
-Fitur "simpan progres otomatis" sedang dalam pengerjaan, tapi tetap bisa melihat progres selama tidak keluar web.
+File ini **satu file HTML mandiri** (`psychotest-pro.html`) — tidak perlu `npm install`, tidak perlu server backend.
+
+**Opsi tercepat (drag & drop):**
+1. [Netlify Drop](https://app.netlify.com/drop) — seret file HTML ke halaman itu, langsung online.
+2. [Vercel](https://vercel.com) — buat project baru, upload file ini sebagai `index.html`.
+3. **GitHub Pages** — push ke repo, rename file jadi `index.html`, aktifkan Pages di Settings → Pages.
+
+**Yang perlu diperhatikan:** rename file jadi `index.html` di server, karena kebanyakan static hosting mencari file itu sebagai halaman utama secara default.
+
+## 💾 Soal penyimpanan progres
+
+Fitur "simpan progres otomatis" memakai **dual-storage otomatis**: kode mencoba `localStorage` asli terlebih dulu, dan baru jatuh ke `window.storage` (API penyimpanan bawaan lingkungan artifact Claude) kalau `localStorage` tidak tersedia/diblokir.
+
+Efeknya:
+- **Saat masih dites di lingkungan preview Claude**: `localStorage` diblokir platform, jadi otomatis pakai `window.storage` — kadang bisa gagal karena ini bergantung pada layanan pihak Claude, tapi kegagalannya ditangani dengan aman (tidak akan bikin situs error, cuma progres tidak tersimpan lintas kunjungan).
+- **Setelah di-deploy ke hosting sungguhan** (Netlify/Vercel/GitHub Pages/dst): `localStorage` otomatis terdeteksi tersedia dan dipakai — ini API browser standar, 100% andal, tidak bergantung server/pihak ketiga mana pun. Tidak perlu ubah kode apa pun lagi.
 
 ## 🛠️ Tech stack
 
@@ -48,3 +63,5 @@ Ide pengembangan berikutnya yang belum dikerjakan:
 - Backend & akun pengguna sungguhan (lihat PRD awal untuk skema database)
 
 ---
+
+*Dibuat dengan Claude.*
