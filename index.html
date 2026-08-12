@@ -437,6 +437,13 @@ body.no-ruled{background-image:none;}
 }
 .wartegg-svg{width:100%;height:100%;color:var(--ink-navy);}
 
+.reading-passage{
+  background:var(--paper-2);border:1.5px solid var(--line);border-radius:var(--radius-sm);
+  padding:16px 18px;margin-bottom:20px;
+  font-family:var(--font-body);font-size:14px;line-height:1.65;color:var(--ink);
+  font-style:italic;
+}
+
 .options{display:grid;gap:10px;}
 .option{
   display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid var(--line);
@@ -849,6 +856,17 @@ footer.foot{
               <span class="tilt-icon">🔤</span>
               <span class="tilt-title">MBTI</span>
               <p class="tilt-desc">Pilihan paksa 4 pasang kutub kepribadian (E/I, S/N, T/F, J/P) — tipe kepribadian paling dikenal luas di dunia kerja.</p>
+              <span class="tilt-cta">Mulai Latihan</span>
+            </div>
+          </div>
+        </div>
+        <div class="tilt-parent" data-cat="resmi">
+          <div class="tilt-card" onclick="startMCQ('toefl')">
+            <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">12</span></div>
+            <div class="tilt-content">
+              <span class="tilt-icon">🌐</span>
+              <span class="tilt-title">TOEFL Prediction</span>
+              <p class="tilt-desc">Structure (tata bahasa) &amp; Reading Comprehension — komponen bahasa Inggris resmi di banyak seleksi BUMN & korporat.</p>
               <span class="tilt-cta">Mulai Latihan</span>
             </div>
           </div>
@@ -1447,6 +1465,26 @@ const BANK = {
     {sub:'Kondisi', q:'Aturan: bentuk harus LEBIH DARI 4 SISI dan HANYA GARIS LUAR (terang). Manakah yang memenuhi kedua syarat ini?', opts:['⬡','⬢','△','◇'], correct:0, exp:'⬡ memenuhi keduanya: 6 sisi dan hanya garis luar. ⬢ terisi, △ dan ◇ sisinya tidak lebih dari 4.'},
     {sub:'Kondisi', q:'Aturan: bentuk harus TEPAT 4 SISI dan TERISI PENUH (gelap). Manakah yang memenuhi kedua syarat ini?', opts:['■','□','▲','●'], correct:0, exp:'■ memenuhi keduanya: 4 sisi dan terisi penuh. □ tidak terisi, ▲ dan ● bukan 4 sisi.'},
     {sub:'Kondisi', q:'Aturan: bentuk harus BULAT dan TERISI PENUH (gelap). Manakah yang memenuhi kedua syarat ini?', opts:['●','○','■','▲'], correct:0, exp:'● memenuhi keduanya: bulat dan terisi penuh. ○ bulat tapi tidak terisi, ■ dan ▲ tidak bulat.'}
+  ],
+  toefl: [
+    {sub:'Structure', q:'The committee ___ the proposal before making a final decision.', opts:['will reviewing','will review','reviewing','review'], correct:1, exp:'Butuh modal "will" diikuti kata kerja dasar: "will review".'},
+    {sub:'Structure', q:'She is one of the students who ___ always on time.', opts:['is','are','was','has been'], correct:1, exp:'"Who" mengacu ke "students" (jamak), maka kata kerjanya "are", bukan "is".'},
+    {sub:'Structure', q:'By the time the manager arrives, we ___ the report.', opts:['will finish','will have finished','finished','have finished'], correct:1, exp:'Menyatakan aksi yang selesai sebelum waktu tertentu di masa depan → future perfect "will have finished".'},
+    {sub:'Structure', q:'Manakah bagian yang salah secara tata bahasa: "The number (A) of applicants (B) have increased (C) significantly this year (D)."', opts:['(A) The number','(B) of applicants','(C) have increased','(D) significantly this year'], correct:2, exp:'"The number of" diikuti kata kerja tunggal karena "number" adalah subjek utama, seharusnya "has increased".'},
+    {sub:'Structure', q:'Neither the manager nor the employees ___ satisfied with the new policy.', opts:['is','are','was','has been'], correct:1, exp:'Pada "neither...nor", kata kerja mengikuti subjek yang paling dekat ("employees", jamak) → "are".'},
+    {sub:'Structure', q:'___ the heavy rain, the event proceeded as scheduled.', opts:['Despite','Although','Because','Since'], correct:0, exp:'"Despite" diikuti frasa benda ("the heavy rain"), sedangkan "Although" harus diikuti klausa lengkap (subjek+kata kerja).'},
+    {sub:'Reading', passage:'Remote work has become increasingly common since 2020, offering employees greater flexibility in managing their schedules. However, many companies have found that fully remote teams face challenges in maintaining collaboration and company culture. As a result, a growing number of organizations now adopt a hybrid model, requiring employees to work from the office two or three days per week while allowing remote work on other days. Proponents argue that this approach balances flexibility with the benefits of in-person interaction.',
+     q:'What is the main idea of the passage?', opts:['Remote work should be banned entirely','Hybrid work models attempt to balance flexibility and in-person collaboration','All companies now require full-time office attendance','Employees prefer working from home exclusively'], correct:1, exp:'Paragraf ini membahas bagaimana model kerja hybrid mencoba menyeimbangkan fleksibilitas dengan manfaat interaksi langsung.'},
+    {sub:'Reading', passage:'Remote work has become increasingly common since 2020, offering employees greater flexibility in managing their schedules. However, many companies have found that fully remote teams face challenges in maintaining collaboration and company culture. As a result, a growing number of organizations now adopt a hybrid model, requiring employees to work from the office two or three days per week while allowing remote work on other days. Proponents argue that this approach balances flexibility with the benefits of in-person interaction.',
+     q:'According to the passage, why do some companies adopt a hybrid model?', opts:['To reduce office costs completely','To balance flexibility with in-person interaction benefits','To eliminate remote work options','To increase employee travel time'], correct:1, exp:'Disebutkan bahwa model hybrid menyeimbangkan fleksibilitas dengan manfaat interaksi tatap muka.'},
+    {sub:'Reading', passage:'Remote work has become increasingly common since 2020, offering employees greater flexibility in managing their schedules. However, many companies have found that fully remote teams face challenges in maintaining collaboration and company culture. As a result, a growing number of organizations now adopt a hybrid model, requiring employees to work from the office two or three days per week while allowing remote work on other days. Proponents argue that this approach balances flexibility with the benefits of in-person interaction.',
+     q:'The word "Proponents" in the passage most likely means...', opts:['Opponents','Supporters','Investigators','Employees'], correct:1, exp:'"Proponents" berarti pendukung/orang yang mendukung suatu gagasan, sinonimnya "supporters".'},
+    {sub:'Reading', passage:'Effective time management is often cited as one of the most valuable skills in professional settings. Studies suggest that employees who prioritize tasks based on urgency and importance tend to experience lower stress levels and higher productivity. One widely used technique involves categorizing tasks into four quadrants: urgent and important, important but not urgent, urgent but not important, and neither urgent nor important. By focusing first on tasks in the first two categories, professionals can avoid last-minute crises while still making progress on long-term goals.',
+     q:'What technique is described in the passage?', opts:['A quadrant-based task prioritization method','A method for eliminating all urgent tasks','A strategy for working longer hours','A system for delegating tasks to others'], correct:0, exp:'Paragraf menjelaskan teknik mengelompokkan tugas ke dalam empat kuadran berdasarkan urgensi dan kepentingan.'},
+    {sub:'Reading', passage:'Effective time management is often cited as one of the most valuable skills in professional settings. Studies suggest that employees who prioritize tasks based on urgency and importance tend to experience lower stress levels and higher productivity. One widely used technique involves categorizing tasks into four quadrants: urgent and important, important but not urgent, urgent but not important, and neither urgent nor important. By focusing first on tasks in the first two categories, professionals can avoid last-minute crises while still making progress on long-term goals.',
+     q:'According to the passage, what is a benefit of prioritizing tasks by urgency and importance?', opts:['Higher stress levels','Lower productivity','Lower stress and higher productivity','More last-minute crises'], correct:2, exp:'Disebutkan bahwa karyawan yang memprioritaskan tugas berdasarkan urgensi dan kepentingan cenderung mengalami stres lebih rendah dan produktivitas lebih tinggi.'},
+    {sub:'Reading', passage:'Effective time management is often cited as one of the most valuable skills in professional settings. Studies suggest that employees who prioritize tasks based on urgency and importance tend to experience lower stress levels and higher productivity. One widely used technique involves categorizing tasks into four quadrants: urgent and important, important but not urgent, urgent but not important, and neither urgent nor important. By focusing first on tasks in the first two categories, professionals can avoid last-minute crises while still making progress on long-term goals.',
+     q:'The phrase "last-minute crises" most likely refers to...', opts:['Planned long-term projects','Urgent problems that arise unexpectedly near a deadline','Regular daily routines','Successfully completed tasks'], correct:1, exp:'"Last-minute crises" mengacu pada masalah mendesak yang muncul tiba-tiba menjelang tenggat waktu.'}
   ]
 };
 
@@ -1471,7 +1509,7 @@ function startMCQ(cat){
       timeUsed:0
     };
   }
-  const titles = {logika:'Logika & Angka', verbal:'Verbal', spasial:'Spasial', twk:'TWK — Wawasan Kebangsaan', tiu:'TIU — Intelegensia Umum', cfit:'CFIT — Tes Kecerdasan Non-Verbal'};
+  const titles = {logika:'Logika & Angka', verbal:'Verbal', spasial:'Spasial', twk:'TWK — Wawasan Kebangsaan', tiu:'TIU — Intelegensia Umum', cfit:'CFIT — Tes Kecerdasan Non-Verbal', toefl:'TOEFL Prediction'};
   document.getElementById('mcqCategoryTitle').textContent = titles[cat] || cat;
   document.getElementById('mcqWarnBanner').classList.remove('show');
   renderMCQ();
@@ -1511,6 +1549,12 @@ function renderMCQ(){
       grid.appendChild(cellEl);
     });
     shapeRow.appendChild(grid);
+  }
+  if(q.passage){
+    const box = document.createElement('div');
+    box.className = 'reading-passage';
+    box.textContent = q.passage;
+    shapeRow.appendChild(box);
   }
 
   const optsEl = document.getElementById('mcqOptions');
