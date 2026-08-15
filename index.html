@@ -289,7 +289,18 @@ body.no-ruled{background-image:none;}
 
 /* ============ MODULE GRID — kartu 3D tilt-on-hover (diadaptasi dari Uiverse.io by imtausef) ============ */
 .tilt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
-.tilt-parent{perspective:1000px;}
+.tilt-parent{position:relative;perspective:1000px;}
+.tilt-parent.recommended .tilt-card{
+  border-color:var(--amber);
+  box-shadow:0 20px 26px -10px rgba(224,147,47,.5);
+}
+.tilt-parent.recommended::before{
+  content:'★ Cocok untuk targetmu';
+  position:absolute;top:-11px;left:16px;z-index:6;
+  background:var(--amber);color:var(--white);
+  font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.03em;
+  padding:3px 10px;border-radius:100px;white-space:nowrap;
+}
 .tilt-parent.filtered-out{display:none;}
 .tilt-card{
   position:relative;
@@ -739,7 +750,7 @@ footer.foot{
         </div>
       </div>
       <div class="tilt-grid">
-        <div class="tilt-parent" data-cat="kognitif">
+        <div class="tilt-parent" data-cat="kognitif" data-key="logika">
           <div class="tilt-card" onclick="startMCQ('logika')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">01</span></div>
             <div class="tilt-content">
@@ -750,7 +761,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="kognitif">
+        <div class="tilt-parent" data-cat="kognitif" data-key="verbal">
           <div class="tilt-card" onclick="startMCQ('verbal')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">02</span></div>
             <div class="tilt-content">
@@ -761,7 +772,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="kognitif">
+        <div class="tilt-parent" data-cat="kognitif" data-key="spasial">
           <div class="tilt-card" onclick="startMCQ('spasial')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">03</span></div>
             <div class="tilt-content">
@@ -772,7 +783,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="resmi">
+        <div class="tilt-parent" data-cat="resmi" data-key="kraepelin">
           <div class="tilt-card" onclick="startKraepelin()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">04</span></div>
             <div class="tilt-content">
@@ -783,7 +794,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="kepribadian">
+        <div class="tilt-parent" data-cat="kepribadian" data-key="disc">
           <div class="tilt-card" onclick="startDISC()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">05</span></div>
             <div class="tilt-content">
@@ -794,7 +805,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="kepribadian">
+        <div class="tilt-parent" data-cat="kepribadian" data-key="papi">
           <div class="tilt-card" onclick="startPAPI()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">06</span></div>
             <div class="tilt-content">
@@ -805,7 +816,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="resmi">
+        <div class="tilt-parent" data-cat="resmi" data-key="skd">
           <div class="tilt-card" onclick="startSKD()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">07</span></div>
             <div class="tilt-content">
@@ -816,7 +827,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="kepribadian">
+        <div class="tilt-parent" data-cat="kepribadian" data-key="epps">
           <div class="tilt-card" onclick="startEPPS()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">08</span></div>
             <div class="tilt-content">
@@ -827,7 +838,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="kognitif">
+        <div class="tilt-parent" data-cat="kognitif" data-key="cfit">
           <div class="tilt-card" onclick="startMCQ('cfit')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">09</span></div>
             <div class="tilt-content">
@@ -838,7 +849,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="resmi">
+        <div class="tilt-parent" data-cat="resmi" data-key="wartegg">
           <div class="tilt-card" onclick="startWartegg()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">10</span></div>
             <div class="tilt-content">
@@ -849,7 +860,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="kepribadian">
+        <div class="tilt-parent" data-cat="kepribadian" data-key="mbti">
           <div class="tilt-card" onclick="startMBTI()">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">11</span></div>
             <div class="tilt-content">
@@ -860,7 +871,7 @@ footer.foot{
             </div>
           </div>
         </div>
-        <div class="tilt-parent" data-cat="resmi">
+        <div class="tilt-parent" data-cat="resmi" data-key="toefl">
           <div class="tilt-card" onclick="startMCQ('toefl')">
             <div class="tilt-badge"><span class="tilt-badge-lbl">MODUL</span><span class="tilt-badge-num">12</span></div>
             <div class="tilt-content">
@@ -1150,7 +1161,19 @@ const state = {
   mbti: { answers: [], finished:false }
 };
 
-document.getElementById('targetSelect').addEventListener('change', e=>{ state.target = e.target.value; queueSave(); });
+const TARGET_RECOMMEND = {
+  BUMN: ['logika','kraepelin','papi','disc'],
+  MNC: ['disc','epps','mbti','toefl'],
+  Startup: ['disc','mbti','verbal','cfit'],
+  CPNS: ['skd','cfit','toefl','wartegg']
+};
+function applyTargetRecommendation(){
+  const list = TARGET_RECOMMEND[state.target] || [];
+  document.querySelectorAll('.tilt-parent').forEach(card=>{
+    card.classList.toggle('recommended', list.includes(card.dataset.key));
+  });
+}
+document.getElementById('targetSelect').addEventListener('change', e=>{ state.target = e.target.value; queueSave(); applyTargetRecommendation(); });
 
 function setStatus(msg){ document.getElementById('ticketStatus').textContent = msg; }
 
@@ -1257,6 +1280,7 @@ async function loadProgress(){
     const card = document.getElementById('onboardCard');
     if(card) card.style.display = 'none';
   }
+  applyTargetRecommendation();
 })();
 
 function dismissOnboard(){
