@@ -194,6 +194,27 @@ body.no-ruled{background-image:none;}
 }
 .onboard-close:hover{border-color:var(--ink-navy);color:var(--ink-navy);}
 
+/* ============ PROGRESS SUMMARY (ringkasan progres semua modul) ============ */
+.progress-summary{
+  background:var(--white);border:1.5px solid var(--line);border-radius:var(--radius);
+  padding:16px 20px;margin:0 0 28px;
+}
+.progress-summary-head{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;
+  margin-bottom:14px;
+}
+.progress-summary-title{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--ink-navy);}
+.progress-summary-count{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);}
+.progress-dots{display:flex;gap:8px;flex-wrap:wrap;}
+.progress-dot{
+  width:32px;height:32px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper-2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--ink-soft);
+  cursor:pointer;transition:all .15s ease;
+}
+.progress-dot:hover{border-color:var(--ink-navy);transform:translateY(-2px);}
+.progress-dot.done{background:var(--green-soft);border-color:var(--green);color:var(--green);}
+
 /* ============ PREMIUM CARD (amplop + segel lilin, diadaptasi dari Uiverse.io by SmookyDev) ============ */
 .premium-wrap{width:100%;display:flex;flex-direction:column;align-items:center;margin:4px 0 32px;}
 .premium-card{
@@ -720,6 +741,14 @@ footer.foot{
       </ol>
     </div>
 
+    <div class="progress-summary">
+      <div class="progress-summary-head">
+        <span class="progress-summary-title">Progres Latihanmu</span>
+        <span class="progress-summary-count" id="progressCount">0/12 modul selesai</span>
+      </div>
+      <div class="progress-dots" id="progressDots"></div>
+    </div>
+
     <div class="deck-section">
       <div class="bauhaus-filter">
         <div class="bh-header">
@@ -1175,6 +1204,56 @@ function applyTargetRecommendation(){
 }
 document.getElementById('targetSelect').addEventListener('change', e=>{ state.target = e.target.value; queueSave(); applyTargetRecommendation(); });
 
+/* ======================================================================
+   PROGRESS SUMMARY (ringkasan progres semua modul di beranda)
+   ====================================================================== */
+const MODULE_LIST = [
+  {key:'logika', num:'01', check:()=> !!(state.mcq.logika && state.mcq.logika.finished)},
+  {key:'verbal', num:'02', check:()=> !!(state.mcq.verbal && state.mcq.verbal.finished)},
+  {key:'spasial', num:'03', check:()=> !!(state.mcq.spasial && state.mcq.spasial.finished)},
+  {key:'kraepelin', num:'04', check:()=> state.krae.finished},
+  {key:'disc', num:'05', check:()=> state.disc.finished},
+  {key:'papi', num:'06', check:()=> state.papi.finished},
+  {key:'skd', num:'07', check:()=> !!(state.mcq.twk && state.mcq.twk.finished && state.mcq.tiu && state.mcq.tiu.finished && state.tkp.finished)},
+  {key:'epps', num:'08', check:()=> state.epps.finished},
+  {key:'cfit', num:'09', check:()=> !!(state.mcq.cfit && state.mcq.cfit.finished)},
+  {key:'wartegg', num:'10', check:()=> state.wartegg.finished},
+  {key:'mbti', num:'11', check:()=> state.mbti.finished},
+  {key:'toefl', num:'12', check:()=> !!(state.mcq.toefl && state.mcq.toefl.finished)}
+];
+
+function launchModuleByKey(key){
+  switch(key){
+    case 'logika': case 'verbal': case 'spasial': case 'cfit': case 'toefl': startMCQ(key); break;
+    case 'kraepelin': startKraepelin(); break;
+    case 'disc': startDISC(); break;
+    case 'papi': startPAPI(); break;
+    case 'skd': startSKD(); break;
+    case 'epps': startEPPS(); break;
+    case 'wartegg': startWartegg(); break;
+    case 'mbti': startMBTI(); break;
+  }
+}
+
+function renderProgressSummary(){
+  const wrap = document.getElementById('progressDots');
+  const countEl = document.getElementById('progressCount');
+  if(!wrap || !countEl) return;
+  wrap.innerHTML = '';
+  let doneCount = 0;
+  MODULE_LIST.forEach(m=>{
+    const done = m.check();
+    if(done) doneCount++;
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot' + (done ? ' done':'');
+    dot.textContent = done ? '✓' : m.num;
+    dot.title = (done ? 'Selesai — klik untuk lihat hasil' : 'Belum dikerjakan — klik untuk mulai') + ' (Modul ' + m.num + ')';
+    dot.onclick = ()=>{ done ? showResults() : launchModuleByKey(m.key); };
+    wrap.appendChild(dot);
+  });
+  countEl.textContent = `${doneCount}/${MODULE_LIST.length} modul selesai`;
+}
+
 function setStatus(msg){ document.getElementById('ticketStatus').textContent = msg; }
 
 /* ======================================================================
@@ -1281,6 +1360,7 @@ async function loadProgress(){
     if(card) card.style.display = 'none';
   }
   applyTargetRecommendation();
+  renderProgressSummary();
 })();
 
 function dismissOnboard(){
@@ -1302,7 +1382,7 @@ function switchView(id){
   document.getElementById(id).classList.add('view--active');
   window.scrollTo({top:0, behavior:'smooth'});
 }
-function goLanding(){ switchView('view-landing'); }
+function goLanding(){ switchView('view-landing'); renderProgressSummary(); }
 
 /* generic tab-switch detection banner, re-usable */
 function attachTabWarning(bannerId){
