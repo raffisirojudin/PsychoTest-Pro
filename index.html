@@ -173,6 +173,22 @@ body.no-ruled{background-image:none;}
   93%,100%{opacity:0;transform:translate(calc(var(--gugup-x) + var(--gugup-w) + 30px),calc(var(--gugup-y) + 24px)) scale(1);}
 }
 
+/* ============ MODE SWITCH (Latihan vs Ujian) ============ */
+.mode-switch{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 20px;
+}
+.mode-switch-label{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);}
+.mode-switch-btns{display:flex;gap:6px;}
+.mode-btn{
+  font-family:var(--font-mono);font-size:11.5px;font-weight:700;
+  padding:7px 16px;border-radius:100px;border:1.5px solid var(--line);
+  background:var(--white);color:var(--ink-soft);cursor:pointer;transition:all .15s ease;
+}
+.mode-btn:hover{border-color:var(--ink-navy);color:var(--ink-navy);}
+.mode-btn.active{background:var(--ink-navy);border-color:var(--ink-navy);color:var(--white);}
+.mode-btn.active.ujian-active{background:var(--red);border-color:var(--red);}
+.mode-switch-hint{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);font-style:italic;}
+
 /* ============ ONBOARDING (kartu cara pakai singkat, muncul sekali) ============ */
 .onboard-card{
   position:relative;
@@ -731,6 +747,15 @@ footer.foot{
       <p>Simulasikan tempo tes koran, tekanan waktu tes pilihan ganda, dan pola pikiran tes kepribadian — lalu lihat hasilnya dalam grafik yang biasa dipakai HR.</p>
     </div>
 
+    <div class="mode-switch">
+      <span class="mode-switch-label">Mode pengerjaan:</span>
+      <div class="mode-switch-btns">
+        <button class="mode-btn active" id="modeBtnLatihan" onclick="setExamMode(false)">🎓 Latihan</button>
+        <button class="mode-btn" id="modeBtnUjian" onclick="setExamMode(true)">📝 Ujian</button>
+      </div>
+      <span class="mode-switch-hint" id="modeSwitchHint">Bisa mundur & lihat ulang soal sebelumnya.</span>
+    </div>
+
     <div class="onboard-card" id="onboardCard">
       <button class="onboard-close" onclick="dismissOnboard()" aria-label="Tutup">✕</button>
       <p class="onboard-title">Cara pakai singkat</p>
@@ -1180,6 +1205,7 @@ const state = {
   ticketNo: 'PTP-' + Math.floor(100000 + Math.random()*899999),
   target: 'BUMN',
   onboardSeen: false,
+  examMode: false,
   mcq: {}, // per category: {answers:[], ragu:[], index, startedAt, finished, timeUsed}
   krae: { logs: [], finished:false },
   disc: { answers: [], finished:false },
@@ -1203,6 +1229,28 @@ function applyTargetRecommendation(){
   });
 }
 document.getElementById('targetSelect').addEventListener('change', e=>{ state.target = e.target.value; queueSave(); applyTargetRecommendation(); });
+
+/* ======================================================================
+   MODE UJIAN vs LATIHAN
+   Mode Ujian mengunci navigasi mundur (tombol Sebelumnya & lompat ke nomor
+   soal yang sudah lewat) di semua modul, meniru batasan ujian sungguhan.
+   ====================================================================== */
+function setExamModeUIOnly(isExam){
+  document.getElementById('modeBtnLatihan').classList.toggle('active', !isExam);
+  document.getElementById('modeBtnUjian').classList.toggle('active', isExam);
+  document.getElementById('modeBtnUjian').classList.toggle('ujian-active', isExam);
+  document.getElementById('modeSwitchHint').textContent = isExam
+    ? 'Tidak bisa kembali ke soal sebelumnya — sekali lanjut, tetap lanjut.'
+    : 'Bisa mundur & lihat ulang soal sebelumnya.';
+}
+function setExamMode(isExam){
+  state.examMode = isExam;
+  setExamModeUIOnly(isExam);
+  queueSave();
+}
+function blockBackNav(){
+  alert('Mode Ujian aktif — tidak bisa kembali ke soal sebelumnya.');
+}
 
 /* ======================================================================
    PROGRESS SUMMARY (ringkasan progres semua modul di beranda)
@@ -1288,6 +1336,7 @@ function applyLoadedState(parsed){
   state.ticketNo = parsed.ticketNo || state.ticketNo;
   state.target = parsed.target || state.target;
   state.onboardSeen = parsed.onboardSeen || false;
+  state.examMode = parsed.examMode || false;
   state.mcq = parsed.mcq || {};
   state.krae = parsed.krae || {logs:[], finished:false};
   state.disc = parsed.disc || {answers:[], finished:false};
@@ -1299,7 +1348,7 @@ function applyLoadedState(parsed){
 }
 
 async function saveProgress(){
-  const payload = { ticketNo: state.ticketNo, target: state.target, onboardSeen: state.onboardSeen, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp, epps: state.epps, wartegg: state.wartegg, mbti: state.mbti };
+  const payload = { ticketNo: state.ticketNo, target: state.target, onboardSeen: state.onboardSeen, examMode: state.examMode, mcq: state.mcq, krae: state.krae, disc: state.disc, papi: state.papi, tkp: state.tkp, epps: state.epps, wartegg: state.wartegg, mbti: state.mbti };
   const json = JSON.stringify(payload);
 
   // Prioritas 1: localStorage asli — otomatis aktif & andal begitu situs ini di-deploy di luar Claude
@@ -1361,6 +1410,7 @@ async function loadProgress(){
   }
   applyTargetRecommendation();
   renderProgressSummary();
+  setExamModeUIOnly(state.examMode);
 })();
 
 function dismissOnboard(){
@@ -1682,7 +1732,10 @@ function renderMCQ(){
       (p===s.index ? ' current':'') +
       (s.ragu[oi] ? ' ragu' : (s.answers[oi]!==null ? ' answered':''));
     btn.textContent = p+1;
-    btn.onclick = ()=>{ s.index=p; renderMCQ(); };
+    btn.onclick = ()=>{
+      if(state.examMode && p < s.index){ blockBackNav(); return; }
+      s.index=p; renderMCQ();
+    };
     nav.appendChild(btn);
   });
 
@@ -1693,6 +1746,7 @@ function renderMCQ(){
 }
 
 function mcqPrev(){
+  if(state.examMode){ blockBackNav(); return; }
   const s = state.mcq[mcqCat];
   if(s.index>0){ s.index--; renderMCQ(); }
 }
@@ -1939,7 +1993,7 @@ function renderDISC(){
   b.onclick = ()=>{ state.disc.answers[origIdx]=rightOrig; renderDISC(); queueSave(); };
   document.getElementById('discNextBtn').textContent = discIndex===DISC_PAIRS.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
-function discPrev(){ if(discIndex>0){ discIndex--; renderDISC(); } }
+function discPrev(){ if(state.examMode){ blockBackNav(); return; } if(discIndex>0){ discIndex--; renderDISC(); } }
 function discNext(){
   const origIdx = state.disc.order[discIndex];
   if(state.disc.answers[origIdx]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
@@ -2203,7 +2257,7 @@ function renderPAPI(){
   b.onclick = ()=>{ state.papi.answers[origIdx]=rightOrig; renderPAPI(); queueSave(); };
   document.getElementById('papiNextBtn').textContent = papiIndex===PAPI_PAIRS.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
-function papiPrev(){ if(papiIndex>0){ papiIndex--; renderPAPI(); } }
+function papiPrev(){ if(state.examMode){ blockBackNav(); return; } if(papiIndex>0){ papiIndex--; renderPAPI(); } }
 function papiNext(){
   const origIdx = state.papi.order[papiIndex];
   if(state.papi.answers[origIdx]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
@@ -2354,7 +2408,7 @@ function renderTKP(){
   });
   document.getElementById('tkpNextBtn').textContent = tkpIndex===TKP_BANK.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
-function tkpPrev(){ if(tkpIndex>0){ tkpIndex--; renderTKP(); } }
+function tkpPrev(){ if(state.examMode){ blockBackNav(); return; } if(tkpIndex>0){ tkpIndex--; renderTKP(); } }
 function tkpNext(){
   const origIdx = state.tkp.order[tkpIndex];
   if(state.tkp.answers[origIdx]===null){ alert('Pilih salah satu jawaban dulu ya.'); return; }
@@ -2526,7 +2580,7 @@ function renderEPPS(){
   b.onclick = ()=>{ state.epps.answers[origIdx]=rightOrig; renderEPPS(); queueSave(); };
   document.getElementById('eppsNextBtn').textContent = eppsIndex===EPPS_PAIRS.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
-function eppsPrev(){ if(eppsIndex>0){ eppsIndex--; renderEPPS(); } }
+function eppsPrev(){ if(state.examMode){ blockBackNav(); return; } if(eppsIndex>0){ eppsIndex--; renderEPPS(); } }
 function eppsNext(){
   const origIdx = state.epps.order[eppsIndex];
   if(state.epps.answers[origIdx]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
@@ -2695,7 +2749,7 @@ function renderWartegg(){
   });
   document.getElementById('warteggNextBtn').textContent = warteggIndex===WARTEGG_BANK.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
-function warteggPrev(){ if(warteggIndex>0){ warteggIndex--; renderWartegg(); } }
+function warteggPrev(){ if(state.examMode){ blockBackNav(); return; } if(warteggIndex>0){ warteggIndex--; renderWartegg(); } }
 function warteggNext(){
   const origIdx = state.wartegg.order[warteggIndex];
   if(state.wartegg.answers[origIdx]===null){ alert('Pilih salah satu tema dulu ya.'); return; }
@@ -2814,7 +2868,7 @@ function renderMBTI(){
   b.onclick = ()=>{ state.mbti.answers[origIdx]=rightOrig; renderMBTI(); queueSave(); };
   document.getElementById('mbtiNextBtn').textContent = mbtiIndex===MBTI_PAIRS.length-1 ? 'Selesai ✓' : 'Selanjutnya →';
 }
-function mbtiPrev(){ if(mbtiIndex>0){ mbtiIndex--; renderMBTI(); } }
+function mbtiPrev(){ if(state.examMode){ blockBackNav(); return; } if(mbtiIndex>0){ mbtiIndex--; renderMBTI(); } }
 function mbtiNext(){
   const origIdx = state.mbti.order[mbtiIndex];
   if(state.mbti.answers[origIdx]===null){ alert('Pilih salah satu pernyataan dulu ya.'); return; }
